@@ -1,0 +1,96 @@
+---
+title: "Advent of Code 2019"
+output: html_notebook
+---
+
+# Day 01
+
+## load required libraries
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## load input data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+day01_input <- read_csv("inputs/day01_01_input.txt", col_names = FALSE) %>%
+  `colnames<-`('ship_mass')
+
+sprintf('loaded %s ships w/ total mass of %s', nrow(day01_input), sum(day01_input$ship_mass, na.rm=T))
+```
+
+## part 01: calculate fuel-consumption
+
+First, formulate the function as described on [day01 challenge site](https://adventofcode.com/2019/day/1).
+
+> Fuel required to launch a given module is based on its mass.  
+> Specifically, to find the fuel required for a module, take its mass, divide by three, round down, and subtract 2.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+calculate_fuel_for_mass.v1 <- function(mass) {
+  return(floor(mass / 3) - 2) # no explicit mention of what's supposed to happen if this were to return < 0...
+}
+```
+
+Then, validate the function on the examples given:
+
+```{r}
+#For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.
+calculate_fuel_for_mass.v1(12) == 2
+#For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.
+calculate_fuel_for_mass.v1(14) == 2
+#For a mass of 1969, the fuel required is 654.
+calculate_fuel_for_mass.v1(1969) == 654
+#For a mass of 100756, the fuel required is 33583.
+calculate_fuel_for_mass.v1(100756) == 33583
+```
+
+Looking good. Now calculate this on the inputs and return the total sum.
+
+```{r}
+ship_info.v1 <- day01_input %>%
+  mutate(
+    fuel_requirement = calculate_fuel_for_mass.v1(ship_mass)
+  )
+
+sprintf('in total, the ships require %s fuel', sum(ship_info.v1$fuel_requirement))
+```
+
+## part 02: consider fuel-mass
+
+> Fuel itself requires fuel just like a module - take its mass, divide by three, round down, and subtract 2.  
+> However, that fuel also requires fuel, and that fuel requires fuel, and so on.  
+> Any mass that would require negative fuel should instead be treated as if it requires zero fuel;
+
+```{r}
+calculate_fuel_for_mass.v2 <- function(mass) {
+  base_fuel <-  pmax(0, floor(mass / 3) - 2)
+  # print(sprintf('mass %s needs %s fuel.', mass, base_fuel))
+  return( ifelse(base_fuel < 9, base_fuel, base_fuel + calculate_fuel_for_mass.v2(base_fuel) ) )
+}
+```
+
+Again, validate the function on the examples given:
+
+```{r}
+#A module of mass 14 requires 2 fuel. This fuel requires no further fuel (2 divided by 3 and rounded down is 0, which would call for a negative fuel), so the total fuel required is still just 2.
+calculate_fuel_for_mass.v2(14) == 2
+# At first, a module of mass 1969 requires 654 fuel. Then, this fuel requires 216 more fuel (654 / 3 - 2). 216 then requires 70 more fuel, which requires 21 fuel, which requires 5 fuel, which requires no further fuel. So, the total fuel required for a module of mass 1969 is 654 + 216 + 70 + 21 + 5 = 966.
+calculate_fuel_for_mass.v2(1969) == 966
+# The fuel required by a module of mass 100756 and its fuel is: 33583 + 11192 + 3728 + 1240 + 411 + 135 + 43 + 12 + 2 = 50346.
+calculate_fuel_for_mass.v2(100756) == 50346
+
+# also, make sure that this recursive function is still working in a vectorized environment
+calculate_fuel_for_mass.v2(c(14,1969,100756))
+```
+
+```{r}
+ship_info.v2 <- day01_input %>%
+  mutate(
+    fuel_requirement = calculate_fuel_for_mass.v2(ship_mass)
+  )
+
+sprintf('in total, the ships require %s fuel', sum(ship_info.v2$fuel_requirement))
+```
+
