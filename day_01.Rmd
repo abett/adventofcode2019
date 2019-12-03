@@ -85,6 +85,9 @@ calculate_fuel_for_mass.v2(100756) == 50346
 calculate_fuel_for_mass.v2(c(14,1969,100756))
 ```
 
+All looking good here :)  
+Time to return the final result.
+
 ```{r}
 ship_info.v2 <- day01_input %>%
   mutate(
