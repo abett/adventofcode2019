@@ -35,23 +35,23 @@ lay_out_wires <- function(wire_list) {
     segment <- 1
     x <- 0
     y <- 0
-    len <- 0
+    length <- 0
     
     for(instruction in wire_list[[wire_i]]) {
       direction_i <- str_extract(instruction, '^[UDLR]')
-      len_i <- str_extract(instruction, '(?<=^[UDLR])(\\d+$)') %>% as.integer()
+      length_i <- str_extract(instruction, '(?<=^[UDLR])(\\d+$)') %>% as.integer()
       
       x_vector <- case_when(
-        direction_i == 'R' ~ (x+1):(x+len_i),
-        direction_i == 'L' ~ (x-1):(x-len_i),
+        direction_i == 'R' ~ (x+1):(x+length_i),
+        direction_i == 'L' ~ (x-1):(x-length_i),
         T ~ x:x
       )
       y_vector <- case_when(
-        direction_i == 'U' ~ (y+1):(y+len_i),
-        direction_i == 'D' ~ (y-1):(y-len_i),
+        direction_i == 'U' ~ (y+1):(y+length_i),
+        direction_i == 'D' ~ (y-1):(y-length_i),
         T ~ y:y
       )
-      len_new <- len + len_i
+      length_new <- length + length_i
       
       
       wire <- wire %>%
@@ -60,7 +60,7 @@ lay_out_wires <- function(wire_list) {
             wire = wire_i,
             x = x_vector,
             y = y_vector,
-            len = (len+1):len_new,
+            length = (length+1):length_new,
             segment = segment,
             direction = direction_i
           )
@@ -69,7 +69,7 @@ lay_out_wires <- function(wire_list) {
       segment <- segment + 1
       x <- x_vector %>% last
       y <- y_vector %>% last
-      len <- len_new
+      length <- length_new
     }
     
     wires <- wires %>%
@@ -91,28 +91,35 @@ When we filter for only those coordinates with `n > 1` distinct cable observatio
 find_intersections <- function(wire_df) {
   wire_df %>%
     group_by(x,y) %>%
-    summarise(
+    mutate(
       n_wires = n_distinct(wire)
     ) %>%
     filter(
       n_wires > 1
     ) %>%
+    group_by(x,y,wire) %>%
     mutate(
-      manhattan_dist_to_cport = x+y
+      wire.shortest_path_length = min(length)
     ) %>%
-    arrange(manhattan_dist_to_cport)
+    group_by(x,y) %>%
+    summarise(
+      shortcircuit.manhattan_dist_to_central_port = first(abs(x)+abs(y)),
+      shortcircuit.min_wire_length = min(length),
+      shortcircuit.min_full_circuit_length = sum(wire.shortest_path_length)
+    ) %>%
+    arrange(shortcircuit.manhattan_dist_to_central_port, x, y)
 }
 
 ```
 
 
-## validate
+Now, we validate this on the provided examples.
 
 ```{r}
 validation.wire_layout01 <- strsplit(c('R8,U5,L5,D3','U7,R6,D4,L4'), split=',') %>% lay_out_wires
 find_intersections(validation.wire_layout01) %>%
   head(1) %>%
-  pull(manhattan_dist_to_cport) %>%
+  pull(shortcircuit.manhattan_dist_to_central_port) %>%
   {. == 6}
 ```
 
@@ -120,45 +127,68 @@ find_intersections(validation.wire_layout01) %>%
 validation.wire_layout02 <- strsplit(c('R75,D30,R83,U83,L12,D49,R71,U7,L72','U62,R66,U55,R34,D71,R55,D58,R83'), split=',') %>% lay_out_wires
 find_intersections(validation.wire_layout02) %>%
   head(1) %>%
-  pull(manhattan_dist_to_cport) %>%
+  pull(shortcircuit.manhattan_dist_to_central_port) %>%
   {. == 159}
-
-validation.wire_layout02 %>%
-  group_by(x,y) %>%
-  mutate(
-    n_wires = n_distinct(wire)
-  ) %>%
-  filter(
-    n_wires > 1
-  ) %>%
-  mutate(
-    manhattan_dist_to_cport = x+y
-  ) %>%
-  arrange(manhattan_dist_to_cport)
-  
 ```
 
 ```{r}
 validation.wire_layout03 <- strsplit(c('R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51','U98,R91,D20,R16,D67,R40,U7,R15,U6,R7'), split=',') %>% lay_out_wires
 find_intersections(validation.wire_layout03) %>%
   head(1) %>%
-  pull(manhattan_dist_to_cport) %>%
+  pull(shortcircuit.manhattan_dist_to_central_port) %>%
   {. == 135}
 ```
-
-
-## find intersection of input
-
-Now, run this on the provided input file.
+This looks good, so we can run this on the provided input file to get the result for the first part of the quiz.  
+First, let's "lay out" the wires that we loaded from the input file.
 
 ```{r}
 input_wires <- lay_out_wires(day03_input)
 
-sprintf('laid out wire with length %s', input_wires %>% group_by(wire) %>% summarise(len = max(len)) %>% pull(len))
+sprintf('laid out wire with length %s', input_wires %>% group_by(wire) %>% summarise(length = max(length)) %>% pull(length))
 ```
+This being done, we can find all intersections of the two wires and take a look at the coordinates they meet at.
+
 ```{r}
 input_wire_intersections <- find_intersections(input_wires)
 
 input_wire_intersections
+```
+
+## part 02: find shortest circuit
+
+Finding the shortest circuit-length has been covered by above summary function, but we should validate this as well.  
+This would probably give weird results if we use more than 2 wires (because the `sum` would include three wire lengths), but that's not really asked for here...  
+
+So, running this again for the three previously loaded examples:
+
+```{r}
+find_intersections(validation.wire_layout01) %>%
+  arrange(shortcircuit.min_full_circuit_length) %>%
+  head(1) %>%
+  {.$shortcircuit.min_full_circuit_length == 30}
+```
+
+```{r}
+find_intersections(validation.wire_layout02) %>%
+  arrange(shortcircuit.min_full_circuit_length) %>%
+  head(1) %>%
+  {.$shortcircuit.min_full_circuit_length == 610}
+```
+
+```{r}
+find_intersections(validation.wire_layout03) %>%
+  arrange(shortcircuit.min_full_circuit_length) %>%
+  head(1) %>%
+  {.$shortcircuit.min_full_circuit_length == 410}
+```
+
+All worked out perfectly, so now to run this on the input and go to bed :)
+
+```{r}
+input_wire_intersections %>%
+  arrange(shortcircuit.min_full_circuit_length) %>%
+  head(1) %>%
+  pull(shortcircuit.min_full_circuit_length) %>%
+  sprintf('The shortest circuit closed by the wires has a total length of %s units.', .)
 ```
 
