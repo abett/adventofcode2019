@@ -18,7 +18,12 @@ day03_input <- read_lines("inputs/day03_01_input.txt") %>%
   strsplit(split=',')
 ```
 
-## part 01: lay out wires
+## part 01: find closest wire-intersection
+
+### function to lay out wires into dataframe
+
+This function takes every wire-segment and lays it out into a table of `[x,y]`-coordinates.  
+We can then later `summarise` this table easily to identify coordinates where more than one wire has been observed.
 
 ```{r}
 lay_out_wires <- function(wire_list) {
@@ -77,14 +82,10 @@ lay_out_wires <- function(wire_list) {
 ```
 
 
-```{r}
-input_wires <- lay_out_wires(day03_input)
+## function to find intersections within laid-out dataframe format
 
-sprintf('laid out wire with length %s', input_wires %>% group_by(wire) %>% summarise(len = max(len)) %>% pull(len))
-```
-
-
-## find intersections
+This function will summarise the produced full wire-layout by counting the distinct wire-id's observed at each `[x,y]` value-pair.  
+When we filter for only those coordinates with `n > 1` distinct cable observations, this should give us the intersection points.
 
 ```{r}
 find_intersections <- function(wire_df) {
@@ -143,5 +144,21 @@ find_intersections(validation.wire_layout03) %>%
   head(1) %>%
   pull(manhattan_dist_to_cport) %>%
   {. == 135}
+```
+
+
+## find intersection of input
+
+Now, run this on the provided input file.
+
+```{r}
+input_wires <- lay_out_wires(day03_input)
+
+sprintf('laid out wire with length %s', input_wires %>% group_by(wire) %>% summarise(len = max(len)) %>% pull(len))
+```
+```{r}
+input_wire_intersections <- find_intersections(input_wires)
+
+input_wire_intersections
 ```
 
