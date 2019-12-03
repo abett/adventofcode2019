@@ -1,0 +1,146 @@
+---
+title: "Advent of Code 2019"
+output: html_notebook
+---
+
+# Day 02
+
+## load required libraries
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## load input data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+day02_input <- read_lines ("inputs/day02_01_input.txt") %>% strsplit(split = ',') %>% unlist() %>% as.integer()
+
+sprintf('loaded instruction_stream: %s', paste(day02_input, collapse=','))
+```
+
+## part 01: write program function
+
+> Opcode 1 adds together numbers read from two positions and stores the result in a third position.
+
+> Opcode 2 works exactly like opcode 1, except it multiplies the two inputs instead of adding them.
+
+> Once you're done processing an opcode, move to the next one by stepping forward 4 positions.
+
+> 99 means that the program is finished and should immediately halt
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+run_program <- function(program_stream, verbose = T) {
+  i <- 1
+  while((opcode <- program_stream[i]) != 99) {
+    input1.adress <- program_stream[i+1]+1
+    input2.adress <- program_stream[i+2]+1
+    output.address <- program_stream[i+3]+1
+    
+    input1.value <- program_stream[input1.adress]
+    input2.value <- program_stream[input2.adress]
+      
+    if(opcode == 1) {
+      if(verbose) print(sprintf('instruction %s: writing %s + %s to position %s', (i+3)/4, input1.value, input2.value, output.address))
+      program_stream[output.address] <- input1.value + input2.value
+      
+    } else if(opcode == 2) {
+      if(verbose) print(sprintf('instruction %s: writing %s * %s to position %s', (i+3)/4, input1.value, input2.value, output.address))
+      program_stream[output.address] <- input1.value * input2.value
+    
+    } else {
+      stop(sprintf('unknown opcode %s', opcode))
+    }
+    
+    i <- i+4
+  }
+  if(verbose) print(sprintf('exited gracefully, finding a opcode 99 at position %s', i))
+  return(program_stream)
+}
+```
+
+Then, validate the function on the examples given:
+
+```{r}
+validation_stream.input <- c(1,9,10,3,2,3,11,0,99,30,40,50)
+validation_stream.output <- run_program(validation_stream.input, verbose = F)
+identical(validation_stream.output, c(3500,9,10,70,2,3,11,0,99,30,40,50))
+```
+
+Looking good. Now for the mean trick:
+
+> before running the program, replace position 1 with the value 12 and replace position 2 with the value 2.
+> What value is left at position 0 after the program halts?
+
+```{r}
+day02_input.1202state <- day02_input
+day02_input.1202state[2] <- 12
+day02_input.1202state[3] <- 2
+
+day02_final_state <- run_program(day02_input.1202state)
+
+sprintf('final value at position 0: %s', day02_final_state[1])
+```
+("final value at position 0: 3562624")
+
+## part 02: find the input to output 19690720
+
+> In this program, the value placed in address 1 is called the noun, and the value placed in address 2 is called the verb.
+
+> Each of the two input values will be between 0 and 99, inclusive.
+
+> Each time you try a pair of inputs, make sure you first reset the computer's memory to the values in the program (your puzzle input) - in other words, don't reuse memory from a previous attempt.
+
+```{r}
+bruteforce_outputs <- function(program_stream, nouns = 0:99, verbs = 0:99, verbose = F) {
+  runs <- tibble()
+  for(noun in nouns) {
+    for(verb in verbs) {
+      run_state <- day02_input
+      run_state[2] <- noun
+      run_state[3] <- verb
+      
+      run <- tibble(
+        noun = noun,
+        verb = verb,
+        initial_state = list(run_state),
+        final_state = list(run_program(run_state, verbose = F)),
+        output = final_state[[1]][1]
+      )
+      
+      # don't use this.. too much output >_>
+      if(verbose) print(sprintf('produced %s with noun: %s & verb: %s', run$output, noun, verb))
+      
+      runs <- runs %>%
+        bind_rows(run)
+    }
+  }
+  
+  return(runs)
+}
+```
+
+Again, validate the function by checking whether we can find the inputs to the first part of the puzzle, only based on its output.  
+This should deliver values for a bunch of input combinations, where we should find the output 3562624 being produced by noun: 12 & verb: 2
+
+```{r}
+validation_io <- bruteforce_outputs(day02_input, nouns = 0:20, verbs = 0:20, verbose = F)
+validation_io %>%
+  filter(output == 3562624) %>%
+  {.$noun == 12 & .$verb == 2} %>%
+  all
+```
+This works, even if it may be a very dumb approach...  
+Nobody said I can't be dumb.
+
+```{r}
+validation_io <- bruteforce_outputs(day02_input, nouns = 0:99, verbs = 0:99, verbose = F)
+day02_result.input <- validation_io %>%
+  filter(output == 19690720) %>%
+  mutate(
+    input_param = 100 * noun + verb
+  )
+
+sprintf('found exactly %s inputs that lead to the output 19690720. this would be the program(s) %s', nrow(day02_result.input), day02_result.input$input_param)
+```
+("found exactly 1 inputs that lead to the output 19690720. this would be the program(s) 8298")
