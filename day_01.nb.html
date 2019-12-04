@@ -1812,35 +1812,19 @@ Specifically, to find the fuel required for a module, take its mass, divide by t
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Then, validate the function on the examples given:</p>
+<ul>
+<li>For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.</li>
+<li>For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.</li>
+<li>For a mass of 1969, the fuel required is 654.</li>
+<li>For a mass of 100756, the fuel required is 33583.</li>
+</ul>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ZvciBhIG1hc3Mgb2YgMTIsIGRpdmlkZSBieSAzIGFuZCByb3VuZCBkb3duIHRvIGdldCA0LCB0aGVuIHN1YnRyYWN0IDIgdG8gZ2V0IDIuXG5jYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MSgxMikgPT0gMlxuYGBgIn0= -->
-<pre class="r"><code>#For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.
-calculate_fuel_for_mass.v1(12) == 2</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjEoYygxMiwxNCwxOTY5LDEwMDc1NikpID09IGMoMiwyLDY1NCwzMzU4MylcbmBgYCJ9 -->
+<pre class="r"><code>calculate_fuel_for_mass.v1(c(12,14,1969,100756)) == c(2,2,654,33583)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ZvciBhIG1hc3Mgb2YgMTQsIGRpdmlkaW5nIGJ5IDMgYW5kIHJvdW5kaW5nIGRvd24gc3RpbGwgeWllbGRzIDQsIHNvIHRoZSBmdWVsIHJlcXVpcmVkIGlzIGFsc28gMi5cbmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxKDE0KSA9PSAyXG5gYGAifQ== -->
-<pre class="r"><code>#For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.
-calculate_fuel_for_mass.v1(14) == 2</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ZvciBhIG1hc3Mgb2YgMTk2OSwgdGhlIGZ1ZWwgcmVxdWlyZWQgaXMgNjU0LlxuY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjEoMTk2OSkgPT0gNjU0XG5gYGAifQ== -->
-<pre class="r"><code>#For a mass of 1969, the fuel required is 654.
-calculate_fuel_for_mass.v1(1969) == 654</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0ZvciBhIG1hc3Mgb2YgMTAwNzU2LCB0aGUgZnVlbCByZXF1aXJlZCBpcyAzMzU4My5cbmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxKDEwMDc1NikgPT0gMzM1ODNcbmBgYCJ9 -->
-<pre class="r"><code>#For a mass of 100756, the fuel required is 33583.
-calculate_fuel_for_mass.v1(100756) == 33583</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUUgVFJVRSBUUlVFIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE TRUE TRUE TRUE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1868,6 +1852,8 @@ sprintf(&#39;in total, the ships require %s fuel&#39;, sum(ship_info.v1$fuel_req
 However, that fuel also requires fuel, and that fuel requires fuel, and so on.<br />
 Any mass that would require negative fuel should instead be treated as if it requires zero fuel;</p>
 </blockquote>
+<p>Adding in a recursion step into this function.<br />
+In case the needed fuel for a mass is larger than 8 (which is the largest mass that would require 0 fuel), we run a recursive call of the function and add the needed fuel for the additionally loaded fuel.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjIgPC0gZnVuY3Rpb24obWFzcykge1xuICBiYXNlX2Z1ZWwgPC0gIHBtYXgoMCwgZmxvb3IobWFzcyAvIDMpIC0gMilcbiAgIyBwcmludChzcHJpbnRmKCdtYXNzICVzIG5lZWRzICVzIGZ1ZWwuJywgbWFzcywgYmFzZV9mdWVsKSlcbiAgcmV0dXJuKCBpZmVsc2UoYmFzZV9mdWVsIDwgOSwgYmFzZV9mdWVsLCBiYXNlX2Z1ZWwgKyBjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MihiYXNlX2Z1ZWwpICkgKVxufVxuYGBgIn0= -->
@@ -1880,35 +1866,22 @@ Any mass that would require negative fuel should instead be treated as if it req
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Again, validate the function on the examples given:</p>
+<ul>
+<li>A module of mass 14 requires 2 fuel. This fuel requires no further fuel (2 divided by 3 and rounded down is 0, which would call for a negative fuel), so the total fuel required is still just 2.<br />
+</li>
+<li>the total fuel required for a module of mass 1969 is 654 + 216 + 70 + 21 + 5 = 966.<br />
+</li>
+<li>The fuel required by a module of mass 100756 and its fuel is: 33583 + 11192 + 3728 + 1240 + 411 + 135 + 43 + 12 + 2 = 50346.<br />
+</li>
+<li>also, make sure that this recursive function is still working in a vectorized environment</li>
+</ul>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0EgbW9kdWxlIG9mIG1hc3MgMTQgcmVxdWlyZXMgMiBmdWVsLiBUaGlzIGZ1ZWwgcmVxdWlyZXMgbm8gZnVydGhlciBmdWVsICgyIGRpdmlkZWQgYnkgMyBhbmQgcm91bmRlZCBkb3duIGlzIDAsIHdoaWNoIHdvdWxkIGNhbGwgZm9yIGEgbmVnYXRpdmUgZnVlbCksIHNvIHRoZSB0b3RhbCBmdWVsIHJlcXVpcmVkIGlzIHN0aWxsIGp1c3QgMi5cbmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYyKDE0KSA9PSAyXG5gYGAifQ== -->
-<pre class="r"><code>#A module of mass 14 requires 2 fuel. This fuel requires no further fuel (2 divided by 3 and rounded down is 0, which would call for a negative fuel), so the total fuel required is still just 2.
-calculate_fuel_for_mass.v2(14) == 2</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjIoYygxNCwxOTY5LDEwMDc1NikpID09IGMoMiwgOTY2LCA1MDM0NilcbmBgYCJ9 -->
+<pre class="r"><code>calculate_fuel_for_mass.v2(c(14,1969,100756)) == c(2, 966, 50346)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBdCBmaXJzdCwgYSBtb2R1bGUgb2YgbWFzcyAxOTY5IHJlcXVpcmVzIDY1NCBmdWVsLiBUaGVuLCB0aGlzIGZ1ZWwgcmVxdWlyZXMgMjE2IG1vcmUgZnVlbCAoNjU0IC8gMyAtIDIpLiAyMTYgdGhlbiByZXF1aXJlcyA3MCBtb3JlIGZ1ZWwsIHdoaWNoIHJlcXVpcmVzIDIxIGZ1ZWwsIHdoaWNoIHJlcXVpcmVzIDUgZnVlbCwgd2hpY2ggcmVxdWlyZXMgbm8gZnVydGhlciBmdWVsLiBTbywgdGhlIHRvdGFsIGZ1ZWwgcmVxdWlyZWQgZm9yIGEgbW9kdWxlIG9mIG1hc3MgMTk2OSBpcyA2NTQgKyAyMTYgKyA3MCArIDIxICsgNSA9IDk2Ni5cbmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYyKDE5NjkpID09IDk2NlxuYGBgIn0= -->
-<pre class="r"><code># At first, a module of mass 1969 requires 654 fuel. Then, this fuel requires 216 more fuel (654 / 3 - 2). 216 then requires 70 more fuel, which requires 21 fuel, which requires 5 fuel, which requires no further fuel. So, the total fuel required for a module of mass 1969 is 654 + 216 + 70 + 21 + 5 = 966.
-calculate_fuel_for_mass.v2(1969) == 966</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBUaGUgZnVlbCByZXF1aXJlZCBieSBhIG1vZHVsZSBvZiBtYXNzIDEwMDc1NiBhbmQgaXRzIGZ1ZWwgaXM6IDMzNTgzICsgMTExOTIgKyAzNzI4ICsgMTI0MCArIDQxMSArIDEzNSArIDQzICsgMTIgKyAyID0gNTAzNDYuXG5jYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MigxMDA3NTYpID09IDUwMzQ2XG5gYGAifQ== -->
-<pre class="r"><code># The fuel required by a module of mass 100756 and its fuel is: 33583 + 11192 + 3728 + 1240 + 411 + 135 + 43 + 12 + 2 = 50346.
-calculate_fuel_for_mass.v2(100756) == 50346</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhbHNvLCBtYWtlIHN1cmUgdGhhdCB0aGlzIHJlY3Vyc2l2ZSBmdW5jdGlvbiBpcyBzdGlsbCB3b3JraW5nIGluIGEgdmVjdG9yaXplZCBlbnZpcm9ubWVudFxuY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjIoYygxNCwxOTY5LDEwMDc1NikpXG5gYGAifQ== -->
-<pre class="r"><code># also, make sure that this recursive function is still working in a vectorized environment
-calculate_fuel_for_mass.v2(c(14,1969,100756))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdICAgICAyICAgOTY2IDUwMzQ2XG4ifQ== -->
-<pre><code>[1]     2   966 50346</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUUgVFJVRSBUUlVFXG4ifQ== -->
+<pre><code>[1] TRUE TRUE TRUE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1933,7 +1906,7 @@ sprintf(&#39;in total, the ships require %s fuel&#39;, sum(ship_info.v2$fuel_req
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkFkdmVudCBvZiBDb2RlIDIwMTkiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIERheSAwMQ0KDQojIyBsb2FkIHJlcXVpcmVkIGxpYnJhcmllcw0KDQpgYGB7ciBlY2hvPVRSVUUsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KDQojIyBsb2FkIGlucHV0IGRhdGENCg0KYGBge3IgZWNobz1UUlVFLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KZGF5MDFfaW5wdXQgPC0gcmVhZF9jc3YoImlucHV0cy9kYXkwMV8wMV9pbnB1dC50eHQiLCBjb2xfbmFtZXMgPSBGQUxTRSkgJT4lDQogIGBjb2xuYW1lczwtYCgnc2hpcF9tYXNzJykNCg0Kc3ByaW50ZignbG9hZGVkICVzIHNoaXBzIHcvIHRvdGFsIG1hc3Mgb2YgJXMnLCBucm93KGRheTAxX2lucHV0KSwgc3VtKGRheTAxX2lucHV0JHNoaXBfbWFzcywgbmEucm09VCkpDQpgYGANCg0KIyMgcGFydCAwMTogY2FsY3VsYXRlIGZ1ZWwtY29uc3VtcHRpb24NCg0KRmlyc3QsIGZvcm11bGF0ZSB0aGUgZnVuY3Rpb24gYXMgZGVzY3JpYmVkIG9uIFtkYXkwMSBjaGFsbGVuZ2Ugc2l0ZV0oaHR0cHM6Ly9hZHZlbnRvZmNvZGUuY29tLzIwMTkvZGF5LzEpLg0KDQo+IEZ1ZWwgcmVxdWlyZWQgdG8gbGF1bmNoIGEgZ2l2ZW4gbW9kdWxlIGlzIGJhc2VkIG9uIGl0cyBtYXNzLiAgDQo+IFNwZWNpZmljYWxseSwgdG8gZmluZCB0aGUgZnVlbCByZXF1aXJlZCBmb3IgYSBtb2R1bGUsIHRha2UgaXRzIG1hc3MsIGRpdmlkZSBieSB0aHJlZSwgcm91bmQgZG93biwgYW5kIHN1YnRyYWN0IDIuDQoNCmBgYHtyIGVjaG89VFJVRSwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxIDwtIGZ1bmN0aW9uKG1hc3MpIHsNCiAgcmV0dXJuKGZsb29yKG1hc3MgLyAzKSAtIDIpICMgbm8gZXhwbGljaXQgbWVudGlvbiBvZiB3aGF0J3Mgc3VwcG9zZWQgdG8gaGFwcGVuIGlmIHRoaXMgd2VyZSB0byByZXR1cm4gPCAwLi4uDQp9DQpgYGANCg0KVGhlbiwgdmFsaWRhdGUgdGhlIGZ1bmN0aW9uIG9uIHRoZSBleGFtcGxlcyBnaXZlbjoNCg0KYGBge3J9DQojRm9yIGEgbWFzcyBvZiAxMiwgZGl2aWRlIGJ5IDMgYW5kIHJvdW5kIGRvd24gdG8gZ2V0IDQsIHRoZW4gc3VidHJhY3QgMiB0byBnZXQgMi4NCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxKDEyKSA9PSAyDQojRm9yIGEgbWFzcyBvZiAxNCwgZGl2aWRpbmcgYnkgMyBhbmQgcm91bmRpbmcgZG93biBzdGlsbCB5aWVsZHMgNCwgc28gdGhlIGZ1ZWwgcmVxdWlyZWQgaXMgYWxzbyAyLg0KY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjEoMTQpID09IDINCiNGb3IgYSBtYXNzIG9mIDE5NjksIHRoZSBmdWVsIHJlcXVpcmVkIGlzIDY1NC4NCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxKDE5NjkpID09IDY1NA0KI0ZvciBhIG1hc3Mgb2YgMTAwNzU2LCB0aGUgZnVlbCByZXF1aXJlZCBpcyAzMzU4My4NCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxKDEwMDc1NikgPT0gMzM1ODMNCmBgYA0KDQpMb29raW5nIGdvb2QuIE5vdyBjYWxjdWxhdGUgdGhpcyBvbiB0aGUgaW5wdXRzIGFuZCByZXR1cm4gdGhlIHRvdGFsIHN1bS4NCg0KYGBge3J9DQpzaGlwX2luZm8udjEgPC0gZGF5MDFfaW5wdXQgJT4lDQogIG11dGF0ZSgNCiAgICBmdWVsX3JlcXVpcmVtZW50ID0gY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjEoc2hpcF9tYXNzKQ0KICApDQoNCnNwcmludGYoJ2luIHRvdGFsLCB0aGUgc2hpcHMgcmVxdWlyZSAlcyBmdWVsJywgc3VtKHNoaXBfaW5mby52MSRmdWVsX3JlcXVpcmVtZW50KSkNCmBgYA0KDQojIyBwYXJ0IDAyOiBjb25zaWRlciBmdWVsLW1hc3MNCg0KPiBGdWVsIGl0c2VsZiByZXF1aXJlcyBmdWVsIGp1c3QgbGlrZSBhIG1vZHVsZSAtIHRha2UgaXRzIG1hc3MsIGRpdmlkZSBieSB0aHJlZSwgcm91bmQgZG93biwgYW5kIHN1YnRyYWN0IDIuICANCj4gSG93ZXZlciwgdGhhdCBmdWVsIGFsc28gcmVxdWlyZXMgZnVlbCwgYW5kIHRoYXQgZnVlbCByZXF1aXJlcyBmdWVsLCBhbmQgc28gb24uICANCj4gQW55IG1hc3MgdGhhdCB3b3VsZCByZXF1aXJlIG5lZ2F0aXZlIGZ1ZWwgc2hvdWxkIGluc3RlYWQgYmUgdHJlYXRlZCBhcyBpZiBpdCByZXF1aXJlcyB6ZXJvIGZ1ZWw7DQoNCmBgYHtyfQ0KY2FsY3VsYXRlX2Z1ZWxfZm9yX21hc3MudjIgPC0gZnVuY3Rpb24obWFzcykgew0KICBiYXNlX2Z1ZWwgPC0gIHBtYXgoMCwgZmxvb3IobWFzcyAvIDMpIC0gMikNCiAgIyBwcmludChzcHJpbnRmKCdtYXNzICVzIG5lZWRzICVzIGZ1ZWwuJywgbWFzcywgYmFzZV9mdWVsKSkNCiAgcmV0dXJuKCBpZmVsc2UoYmFzZV9mdWVsIDwgOSwgYmFzZV9mdWVsLCBiYXNlX2Z1ZWwgKyBjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MihiYXNlX2Z1ZWwpICkgKQ0KfQ0KYGBgDQoNCkFnYWluLCB2YWxpZGF0ZSB0aGUgZnVuY3Rpb24gb24gdGhlIGV4YW1wbGVzIGdpdmVuOg0KDQpgYGB7cn0NCiNBIG1vZHVsZSBvZiBtYXNzIDE0IHJlcXVpcmVzIDIgZnVlbC4gVGhpcyBmdWVsIHJlcXVpcmVzIG5vIGZ1cnRoZXIgZnVlbCAoMiBkaXZpZGVkIGJ5IDMgYW5kIHJvdW5kZWQgZG93biBpcyAwLCB3aGljaCB3b3VsZCBjYWxsIGZvciBhIG5lZ2F0aXZlIGZ1ZWwpLCBzbyB0aGUgdG90YWwgZnVlbCByZXF1aXJlZCBpcyBzdGlsbCBqdXN0IDIuDQpjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MigxNCkgPT0gMg0KIyBBdCBmaXJzdCwgYSBtb2R1bGUgb2YgbWFzcyAxOTY5IHJlcXVpcmVzIDY1NCBmdWVsLiBUaGVuLCB0aGlzIGZ1ZWwgcmVxdWlyZXMgMjE2IG1vcmUgZnVlbCAoNjU0IC8gMyAtIDIpLiAyMTYgdGhlbiByZXF1aXJlcyA3MCBtb3JlIGZ1ZWwsIHdoaWNoIHJlcXVpcmVzIDIxIGZ1ZWwsIHdoaWNoIHJlcXVpcmVzIDUgZnVlbCwgd2hpY2ggcmVxdWlyZXMgbm8gZnVydGhlciBmdWVsLiBTbywgdGhlIHRvdGFsIGZ1ZWwgcmVxdWlyZWQgZm9yIGEgbW9kdWxlIG9mIG1hc3MgMTk2OSBpcyA2NTQgKyAyMTYgKyA3MCArIDIxICsgNSA9IDk2Ni4NCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYyKDE5NjkpID09IDk2Ng0KIyBUaGUgZnVlbCByZXF1aXJlZCBieSBhIG1vZHVsZSBvZiBtYXNzIDEwMDc1NiBhbmQgaXRzIGZ1ZWwgaXM6IDMzNTgzICsgMTExOTIgKyAzNzI4ICsgMTI0MCArIDQxMSArIDEzNSArIDQzICsgMTIgKyAyID0gNTAzNDYuDQpjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MigxMDA3NTYpID09IDUwMzQ2DQoNCiMgYWxzbywgbWFrZSBzdXJlIHRoYXQgdGhpcyByZWN1cnNpdmUgZnVuY3Rpb24gaXMgc3RpbGwgd29ya2luZyBpbiBhIHZlY3Rvcml6ZWQgZW52aXJvbm1lbnQNCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYyKGMoMTQsMTk2OSwxMDA3NTYpKQ0KYGBgDQoNCkFsbCBsb29raW5nIGdvb2QgaGVyZSA6KSAgDQpUaW1lIHRvIHJldHVybiB0aGUgZmluYWwgcmVzdWx0Lg0KDQpgYGB7cn0NCnNoaXBfaW5mby52MiA8LSBkYXkwMV9pbnB1dCAlPiUNCiAgbXV0YXRlKA0KICAgIGZ1ZWxfcmVxdWlyZW1lbnQgPSBjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MihzaGlwX21hc3MpDQogICkNCg0Kc3ByaW50ZignaW4gdG90YWwsIHRoZSBzaGlwcyByZXF1aXJlICVzIGZ1ZWwnLCBzdW0oc2hpcF9pbmZvLnYyJGZ1ZWxfcmVxdWlyZW1lbnQpKQ0KYGBgDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkFkdmVudCBvZiBDb2RlIDIwMTkiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIERheSAwMQ0KDQojIyBsb2FkIHJlcXVpcmVkIGxpYnJhcmllcw0KDQpgYGB7ciBlY2hvPVRSVUUsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KDQojIyBsb2FkIGlucHV0IGRhdGENCg0KYGBge3IgZWNobz1UUlVFLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KZGF5MDFfaW5wdXQgPC0gcmVhZF9jc3YoImlucHV0cy9kYXkwMV8wMV9pbnB1dC50eHQiLCBjb2xfbmFtZXMgPSBGQUxTRSkgJT4lDQogIGBjb2xuYW1lczwtYCgnc2hpcF9tYXNzJykNCg0Kc3ByaW50ZignbG9hZGVkICVzIHNoaXBzIHcvIHRvdGFsIG1hc3Mgb2YgJXMnLCBucm93KGRheTAxX2lucHV0KSwgc3VtKGRheTAxX2lucHV0JHNoaXBfbWFzcywgbmEucm09VCkpDQpgYGANCg0KIyMgcGFydCAwMTogY2FsY3VsYXRlIGZ1ZWwtY29uc3VtcHRpb24NCg0KRmlyc3QsIGZvcm11bGF0ZSB0aGUgZnVuY3Rpb24gYXMgZGVzY3JpYmVkIG9uIFtkYXkwMSBjaGFsbGVuZ2Ugc2l0ZV0oaHR0cHM6Ly9hZHZlbnRvZmNvZGUuY29tLzIwMTkvZGF5LzEpLg0KDQo+IEZ1ZWwgcmVxdWlyZWQgdG8gbGF1bmNoIGEgZ2l2ZW4gbW9kdWxlIGlzIGJhc2VkIG9uIGl0cyBtYXNzLiAgDQo+IFNwZWNpZmljYWxseSwgdG8gZmluZCB0aGUgZnVlbCByZXF1aXJlZCBmb3IgYSBtb2R1bGUsIHRha2UgaXRzIG1hc3MsIGRpdmlkZSBieSB0aHJlZSwgcm91bmQgZG93biwgYW5kIHN1YnRyYWN0IDIuDQoNCmBgYHtyIGVjaG89VFJVRSwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0NCmNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYxIDwtIGZ1bmN0aW9uKG1hc3MpIHsNCiAgcmV0dXJuKGZsb29yKG1hc3MgLyAzKSAtIDIpICMgbm8gZXhwbGljaXQgbWVudGlvbiBvZiB3aGF0J3Mgc3VwcG9zZWQgdG8gaGFwcGVuIGlmIHRoaXMgd2VyZSB0byByZXR1cm4gPCAwLi4uDQp9DQpgYGANCiAgDQpUaGVuLCB2YWxpZGF0ZSB0aGUgZnVuY3Rpb24gb24gdGhlIGV4YW1wbGVzIGdpdmVuOg0KDQotIEZvciBhIG1hc3Mgb2YgMTIsIGRpdmlkZSBieSAzIGFuZCByb3VuZCBkb3duIHRvIGdldCA0LCB0aGVuIHN1YnRyYWN0IDIgdG8gZ2V0IDIuDQotIEZvciBhIG1hc3Mgb2YgMTQsIGRpdmlkaW5nIGJ5IDMgYW5kIHJvdW5kaW5nIGRvd24gc3RpbGwgeWllbGRzIDQsIHNvIHRoZSBmdWVsIHJlcXVpcmVkIGlzIGFsc28gMi4NCi0gRm9yIGEgbWFzcyBvZiAxOTY5LCB0aGUgZnVlbCByZXF1aXJlZCBpcyA2NTQuDQotIEZvciBhIG1hc3Mgb2YgMTAwNzU2LCB0aGUgZnVlbCByZXF1aXJlZCBpcyAzMzU4My4NCg0KYGBge3J9DQpjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MShjKDEyLDE0LDE5NjksMTAwNzU2KSkgPT0gYygyLDIsNjU0LDMzNTgzKQ0KYGBgDQoNCkxvb2tpbmcgZ29vZC4gTm93IGNhbGN1bGF0ZSB0aGlzIG9uIHRoZSBpbnB1dHMgYW5kIHJldHVybiB0aGUgdG90YWwgc3VtLg0KDQpgYGB7cn0NCnNoaXBfaW5mby52MSA8LSBkYXkwMV9pbnB1dCAlPiUNCiAgbXV0YXRlKA0KICAgIGZ1ZWxfcmVxdWlyZW1lbnQgPSBjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MShzaGlwX21hc3MpDQogICkNCg0Kc3ByaW50ZignaW4gdG90YWwsIHRoZSBzaGlwcyByZXF1aXJlICVzIGZ1ZWwnLCBzdW0oc2hpcF9pbmZvLnYxJGZ1ZWxfcmVxdWlyZW1lbnQpKQ0KYGBgDQoNCiMjIHBhcnQgMDI6IGNvbnNpZGVyIGZ1ZWwtbWFzcw0KDQo+IEZ1ZWwgaXRzZWxmIHJlcXVpcmVzIGZ1ZWwganVzdCBsaWtlIGEgbW9kdWxlIC0gdGFrZSBpdHMgbWFzcywgZGl2aWRlIGJ5IHRocmVlLCByb3VuZCBkb3duLCBhbmQgc3VidHJhY3QgMi4gIA0KPiBIb3dldmVyLCB0aGF0IGZ1ZWwgYWxzbyByZXF1aXJlcyBmdWVsLCBhbmQgdGhhdCBmdWVsIHJlcXVpcmVzIGZ1ZWwsIGFuZCBzbyBvbi4gIA0KPiBBbnkgbWFzcyB0aGF0IHdvdWxkIHJlcXVpcmUgbmVnYXRpdmUgZnVlbCBzaG91bGQgaW5zdGVhZCBiZSB0cmVhdGVkIGFzIGlmIGl0IHJlcXVpcmVzIHplcm8gZnVlbDsNCg0KQWRkaW5nIGluIGEgcmVjdXJzaW9uIHN0ZXAgaW50byB0aGlzIGZ1bmN0aW9uLiAgDQpJbiBjYXNlIHRoZSBuZWVkZWQgZnVlbCBmb3IgYSBtYXNzIGlzIGxhcmdlciB0aGFuIDggKHdoaWNoIGlzIHRoZSBsYXJnZXN0IG1hc3MgdGhhdCB3b3VsZCByZXF1aXJlIDAgZnVlbCksIHdlIHJ1biBhIHJlY3Vyc2l2ZSBjYWxsIG9mIHRoZSBmdW5jdGlvbiBhbmQgYWRkIHRoZSBuZWVkZWQgZnVlbCBmb3IgdGhlIGFkZGl0aW9uYWxseSBsb2FkZWQgZnVlbC4NCg0KYGBge3J9DQpjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MiA8LSBmdW5jdGlvbihtYXNzKSB7DQogIGJhc2VfZnVlbCA8LSAgcG1heCgwLCBmbG9vcihtYXNzIC8gMykgLSAyKQ0KICAjIHByaW50KHNwcmludGYoJ21hc3MgJXMgbmVlZHMgJXMgZnVlbC4nLCBtYXNzLCBiYXNlX2Z1ZWwpKQ0KICByZXR1cm4oIGlmZWxzZShiYXNlX2Z1ZWwgPCA5LCBiYXNlX2Z1ZWwsIGJhc2VfZnVlbCArIGNhbGN1bGF0ZV9mdWVsX2Zvcl9tYXNzLnYyKGJhc2VfZnVlbCkgKSApDQp9DQpgYGANCg0KQWdhaW4sIHZhbGlkYXRlIHRoZSBmdW5jdGlvbiBvbiB0aGUgZXhhbXBsZXMgZ2l2ZW46ICANCg0KLSBBIG1vZHVsZSBvZiBtYXNzIDE0IHJlcXVpcmVzIDIgZnVlbC4gVGhpcyBmdWVsIHJlcXVpcmVzIG5vIGZ1cnRoZXIgZnVlbCAoMiBkaXZpZGVkIGJ5IDMgYW5kIHJvdW5kZWQgZG93biBpcyAwLCB3aGljaCB3b3VsZCBjYWxsIGZvciBhIG5lZ2F0aXZlIGZ1ZWwpLCBzbyB0aGUgdG90YWwgZnVlbCByZXF1aXJlZCBpcyBzdGlsbCBqdXN0IDIuICANCi0gdGhlIHRvdGFsIGZ1ZWwgcmVxdWlyZWQgZm9yIGEgbW9kdWxlIG9mIG1hc3MgMTk2OSBpcyA2NTQgKyAyMTYgKyA3MCArIDIxICsgNSA9IDk2Ni4gIA0KLSBUaGUgZnVlbCByZXF1aXJlZCBieSBhIG1vZHVsZSBvZiBtYXNzIDEwMDc1NiBhbmQgaXRzIGZ1ZWwgaXM6IDMzNTgzICsgMTExOTIgKyAzNzI4ICsgMTI0MCArIDQxMSArIDEzNSArIDQzICsgMTIgKyAyID0gNTAzNDYuICANCi0gYWxzbywgbWFrZSBzdXJlIHRoYXQgdGhpcyByZWN1cnNpdmUgZnVuY3Rpb24gaXMgc3RpbGwgd29ya2luZyBpbiBhIHZlY3Rvcml6ZWQgZW52aXJvbm1lbnQNCg0KYGBge3J9DQpjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MihjKDE0LDE5NjksMTAwNzU2KSkgPT0gYygyLCA5NjYsIDUwMzQ2KQ0KYGBgDQoNCkFsbCBsb29raW5nIGdvb2QgaGVyZSA6KSAgDQpUaW1lIHRvIHJldHVybiB0aGUgZmluYWwgcmVzdWx0Lg0KDQpgYGB7cn0NCnNoaXBfaW5mby52MiA8LSBkYXkwMV9pbnB1dCAlPiUNCiAgbXV0YXRlKA0KICAgIGZ1ZWxfcmVxdWlyZW1lbnQgPSBjYWxjdWxhdGVfZnVlbF9mb3JfbWFzcy52MihzaGlwX21hc3MpDQogICkNCg0Kc3ByaW50ZignaW4gdG90YWwsIHRoZSBzaGlwcyByZXF1aXJlICVzIGZ1ZWwnLCBzdW0oc2hpcF9pbmZvLnYyJGZ1ZWxfcmVxdWlyZW1lbnQpKQ0KYGBgDQoNCg==</div>
 
 
 

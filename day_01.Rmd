@@ -32,18 +32,16 @@ calculate_fuel_for_mass.v1 <- function(mass) {
   return(floor(mass / 3) - 2) # no explicit mention of what's supposed to happen if this were to return < 0...
 }
 ```
-
+  
 Then, validate the function on the examples given:
 
+- For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.
+- For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.
+- For a mass of 1969, the fuel required is 654.
+- For a mass of 100756, the fuel required is 33583.
+
 ```{r}
-#For a mass of 12, divide by 3 and round down to get 4, then subtract 2 to get 2.
-calculate_fuel_for_mass.v1(12) == 2
-#For a mass of 14, dividing by 3 and rounding down still yields 4, so the fuel required is also 2.
-calculate_fuel_for_mass.v1(14) == 2
-#For a mass of 1969, the fuel required is 654.
-calculate_fuel_for_mass.v1(1969) == 654
-#For a mass of 100756, the fuel required is 33583.
-calculate_fuel_for_mass.v1(100756) == 33583
+calculate_fuel_for_mass.v1(c(12,14,1969,100756)) == c(2,2,654,33583)
 ```
 
 Looking good. Now calculate this on the inputs and return the total sum.
@@ -63,6 +61,9 @@ sprintf('in total, the ships require %s fuel', sum(ship_info.v1$fuel_requirement
 > However, that fuel also requires fuel, and that fuel requires fuel, and so on.  
 > Any mass that would require negative fuel should instead be treated as if it requires zero fuel;
 
+Adding in a recursion step into this function.  
+In case the needed fuel for a mass is larger than 8 (which is the largest mass that would require 0 fuel), we run a recursive call of the function and add the needed fuel for the additionally loaded fuel.
+
 ```{r}
 calculate_fuel_for_mass.v2 <- function(mass) {
   base_fuel <-  pmax(0, floor(mass / 3) - 2)
@@ -71,18 +72,15 @@ calculate_fuel_for_mass.v2 <- function(mass) {
 }
 ```
 
-Again, validate the function on the examples given:
+Again, validate the function on the examples given:  
+
+- A module of mass 14 requires 2 fuel. This fuel requires no further fuel (2 divided by 3 and rounded down is 0, which would call for a negative fuel), so the total fuel required is still just 2.  
+- the total fuel required for a module of mass 1969 is 654 + 216 + 70 + 21 + 5 = 966.  
+- The fuel required by a module of mass 100756 and its fuel is: 33583 + 11192 + 3728 + 1240 + 411 + 135 + 43 + 12 + 2 = 50346.  
+- also, make sure that this recursive function is still working in a vectorized environment
 
 ```{r}
-#A module of mass 14 requires 2 fuel. This fuel requires no further fuel (2 divided by 3 and rounded down is 0, which would call for a negative fuel), so the total fuel required is still just 2.
-calculate_fuel_for_mass.v2(14) == 2
-# At first, a module of mass 1969 requires 654 fuel. Then, this fuel requires 216 more fuel (654 / 3 - 2). 216 then requires 70 more fuel, which requires 21 fuel, which requires 5 fuel, which requires no further fuel. So, the total fuel required for a module of mass 1969 is 654 + 216 + 70 + 21 + 5 = 966.
-calculate_fuel_for_mass.v2(1969) == 966
-# The fuel required by a module of mass 100756 and its fuel is: 33583 + 11192 + 3728 + 1240 + 411 + 135 + 43 + 12 + 2 = 50346.
-calculate_fuel_for_mass.v2(100756) == 50346
-
-# also, make sure that this recursive function is still working in a vectorized environment
-calculate_fuel_for_mass.v2(c(14,1969,100756))
+calculate_fuel_for_mass.v2(c(14,1969,100756)) == c(2, 966, 50346)
 ```
 
 All looking good here :)  
