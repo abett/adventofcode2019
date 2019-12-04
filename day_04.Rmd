@@ -1,0 +1,125 @@
+---
+title: "Advent of Code 2019"
+output: html_notebook
+---
+
+# Day 04
+
+## load required libraries
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+## load input data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+day04_input <- tibble(
+  pw = 145852:616942
+)
+```
+
+## part 01: 
+
+### function to extract valid passwords from input vector
+
+This will return all passwords valid by the part01 definition:
+
+> It is a six-digit number.
+> The value is within the range given in your puzzle input.
+> Two adjacent digits are the same (like 22 in 122345).
+> Going from left to right, the digits never decrease; they only ever increase or stay the same (like 111123 or 135679).
+
+```{r}
+evaluate_pws.v1 <- function(pw_df, keep.details = F) {
+  regex.double_digit <- sprintf('%s{2}',0:9) %>% paste(collapse='|')
+  regex.decreasing_nums <- sprintf('%s[0-%s]', 1:9, 0:8) %>% paste(collapse='|')
+  
+  output <- pw_df %>%
+    mutate(
+      valid.length = nchar(pw) == 6,
+      valid.double_digit = grepl(regex.double_digit, pw),
+      valid.no_decreasing_nums = !grepl(regex.decreasing_nums, pw),
+      valid = valid.length & valid.double_digit & valid.no_decreasing_nums
+    )
+  
+  if(!keep.details) output <- output %>% select(-starts_with('valid.'))
+  return(output)
+}
+```
+
+Validate that with the given three pws provided:  
+> 111111 meets these criteria (double 11, never decreases).  
+> 223450 does not meet these criteria (decreasing pair of digits 50).   
+> 123789 does not meet these criteria (no double).
+
+```{r}
+tibble(pw = c(111111, 223450, 123789)) %>%
+  evaluate_pws.v1(keep.details = F)
+```
+Seems in line with the expectations.  
+Now, running this for the input range.
+
+```{r}
+input_validation.v1 <- day04_input %>%
+  evaluate_pws.v1(keep.details = T)
+
+input_validation.v1 %>% filter(valid)
+```
+```{r}
+input_validation.v1 %>%
+  filter(valid) %>%
+  nrow %>%
+  sprintf('found %s possible pws for part 01 of the quiz', .)
+```
+
+## stricter pw validation function
+
+This function will extend the v1 check by adding the extra criterion:  
+> the two adjacent matching digits are not part of a larger group of matching digits.
+
+```{r}
+evaluate_pws.v2 <- function(pw_df, keep.details = F) {
+  # regex.double_digit <- sprintf('%s{2}',0:9) %>% paste(collapse='|')
+  regex.double_digit.strict <- sprintf('(?<!%s)%s{2}(?!%s)', 0:9, 0:9, 0:9) %>% paste(collapse='|')
+  regex.decreasing_nums <- sprintf('%s[0-%s]', 1:9, 0:8) %>% paste(collapse='|')
+  
+  output <- pw_df %>%
+    mutate(
+      valid.length = nchar(pw) == 6,
+      # valid.double_digit = grepl(regex.double_digit, pw),
+      valid.double_digit.strict = grepl(regex.double_digit.strict, pw, perl = T),
+      valid.no_decreasing_nums = !grepl(regex.decreasing_nums, pw),
+      valid = valid.length & valid.double_digit.strict & valid.no_decreasing_nums
+    )
+  
+  if(!keep.details) output <- output %>% select(-starts_with('valid.'))
+  return(output)
+}
+```
+
+Again, we validate this on the provided examples:  
+> 112233 meets these criteria because the digits never decrease and all repeated digits are exactly two digits long.  
+> 123444 no longer meets the criteria (the repeated 44 is part of a larger group of 444).  
+> 111122 meets the criteria (even though 1 is repeated more than twice, it still contains a double 22).
+
+```{r}
+tibble(pw = c(112233, 123444, 111122)) %>%
+  evaluate_pws.v2
+```
+This looks good, run this new function on the input range.
+
+```{r}
+input_validation.v2 <- day04_input %>%
+  evaluate_pws.v2(keep.details = T)
+
+input_validation.v2 %>% filter(valid)
+```
+
+```{r}
+input_validation.v2 %>%
+  filter(valid) %>%
+  nrow %>%
+  sprintf('found %s possible pws for part 01 of the quiz', .)
+```
+
