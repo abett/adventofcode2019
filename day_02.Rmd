@@ -21,13 +21,12 @@ sprintf('loaded instruction_stream: %s', paste(day02_input, collapse=','))
 
 ## part 01: write program function
 
-> Opcode 1 adds together numbers read from two positions and stores the result in a third position.
+The following information is given on the function of the Opcode computer:  
 
-> Opcode 2 works exactly like opcode 1, except it multiplies the two inputs instead of adding them.
-
-> Once you're done processing an opcode, move to the next one by stepping forward 4 positions.
-
-> 99 means that the program is finished and should immediately halt
+- Opcode 1 adds together numbers read from two positions and stores the result in a third position.  
+- Opcode 2 works exactly like opcode 1, except it multiplies the two inputs instead of adding them.  
+- Once you're done processing an opcode, move to the next one by stepping forward 4 positions.  
+- 99 means that the program is finished and should immediately halt  
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 run_program <- function(program_stream, verbose = T) {
