@@ -1729,7 +1729,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("day_02.Rmd");
+  window.initializeSourceEmbed("day_05.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
@@ -1767,14 +1767,15 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<div id="day-02" class="section level1">
-<h1>Day 02</h1>
+<div id="day-05" class="section level1">
+<h1>Day 05</h1>
 <div id="load-required-libraries" class="section level2">
 <h2>load required libraries</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
-<pre class="r"><code>library(tidyverse)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGd0b29scylcbmBgYCJ9 -->
+<pre class="r"><code>library(tidyverse)
+library(gtools)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1783,33 +1784,27 @@ $(document).ready(function () {
 <h2>load input data</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF5MDJfaW5wdXQgPC0gcmVhZF9saW5lcyAoXCJpbnB1dHMvZGF5MDJfMDFfaW5wdXQudHh0XCIpICU+JSBzdHJzcGxpdChzcGxpdCA9ICcsJykgJT4lIHVubGlzdCgpICU+JSBhcy5pbnRlZ2VyKClcblxuc3ByaW50ZignbG9hZGVkIGluc3RydWN0aW9uX3N0cmVhbTogJXMnLCBwYXN0ZShkYXkwMl9pbnB1dCwgY29sbGFwc2U9JywnKSlcbmBgYCJ9 -->
-<pre class="r"><code>day02_input &lt;- read_lines (&quot;inputs/day02_01_input.txt&quot;) %&gt;% strsplit(split = &#39;,&#39;) %&gt;% unlist() %&gt;% as.integer()
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF5MDVfaW5wdXQgPC0gcmVhZF9saW5lcyAoXCJpbnB1dHMvZGF5MDVfMDFfaW5wdXQudHh0XCIpICU+JSBzdHJzcGxpdChzcGxpdCA9ICcsJykgJT4lIHVubGlzdCgpICU+JSBhcy5pbnRlZ2VyKClcblxuc3ByaW50ZignbG9hZGVkIGluc3RydWN0aW9uX3N0cmVhbTogJXMnLCBwYXN0ZShkYXkwNV9pbnB1dCwgY29sbGFwc2U9JywnKSlcbmBgYCJ9 -->
+<pre class="r"><code>day05_input &lt;- read_lines (&quot;inputs/day05_01_input.txt&quot;) %&gt;% strsplit(split = &#39;,&#39;) %&gt;% unlist() %&gt;% as.integer()
 
-sprintf(&#39;loaded instruction_stream: %s&#39;, paste(day02_input, collapse=&#39;,&#39;))</code></pre>
+sprintf(&#39;loaded instruction_stream: %s&#39;, paste(day05_input, collapse=&#39;,&#39;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwibG9hZGVkIGluc3RydWN0aW9uX3N0cmVhbTogMSwwLDAsMywxLDEsMiwzLDEsMyw0LDMsMSw1LDAsMywyLDEwLDEsMTksMSw1LDE5LDIzLDEsMjMsNSwyNywxLDI3LDEzLDMxLDEsMzEsNSwzNSwxLDksMzUsMzksMiwxMywzOSw0MywxLDQzLDEwLDQ3LDEsNDcsMTMsNTEsMiwxMCw1MSw1NSwxLDU1LDUsNTksMSw1OSw1LDYzLDEsNjMsMTMsNjcsMSwxMyw2Nyw3MSwxLDcxLDEwLDc1LDEsNiw3NSw3OSwxLDYsNzksODMsMiwxMCw4Myw4NywxLDg3LDUsOTEsMSw1LDkxLDk1LDIsOTUsMTAsOTksMSw5LDk5LDEwMywxLDEwMywxMywxMDcsMiwxMCwxMDcsMTExLDIsMTMsMTExLDExNSwxLDYsMTE1LDExOSwxLDExOSwxMCwxMjMsMiw5LDEyMywxMjcsMiwxMjcsOSwxMzEsMSwxMzEsMTAsMTM1LDEsMTM1LDIsMTM5LDEsMTAsMTM5LDAsOTksMiwwLDE0LDBcIlxuIn0= -->
-<pre><code>[1] &quot;loaded instruction_stream: 1,0,0,3,1,1,2,3,1,3,4,3,1,5,0,3,2,10,1,19,1,5,19,23,1,23,5,27,1,27,13,31,1,31,5,35,1,9,35,39,2,13,39,43,1,43,10,47,1,47,13,51,2,10,51,55,1,55,5,59,1,59,5,63,1,63,13,67,1,13,67,71,1,71,10,75,1,6,75,79,1,6,79,83,2,10,83,87,1,87,5,91,1,5,91,95,2,95,10,99,1,9,99,103,1,103,13,107,2,10,107,111,2,13,111,115,1,6,115,119,1,119,10,123,2,9,123,127,2,127,9,131,1,131,10,135,1,135,2,139,1,10,139,0,99,2,0,14,0&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwibG9hZGVkIGluc3RydWN0aW9uX3N0cmVhbTogMywyMjUsMSwyMjUsNiw2LDExMDAsMSwyMzgsMjI1LDEwNCwwLDExMDEsNDAsMjcsMjI0LDEwMSwtNjcsMjI0LDIyNCw0LDIyNCwxMDAyLDIyMyw4LDIyMywxMDAxLDIyNCwyLDIyNCwxLDIyNCwyMjMsMjIzLDExMDEsMzMsMzgsMjI1LDExMDIsODQsNjAsMjI1LDExMDEsNjUsNjIsMjI1LDEwMDIsMzYsMTMsMjI0LDEwMDEsMjI0LC00OTQsMjI0LDQsMjI0LDEwMDIsMjIzLDgsMjIzLDEwMDEsMjI0LDMsMjI0LDEsMjIzLDIyNCwyMjMsMTEwMiw4Niw1LDIyNCwxMDEsLTQzMCwyMjQsMjI0LDQsMjI0LDEwMDIsMjIzLDgsMjIzLDEwMSw2LDIyNCwyMjQsMSwyMjMsMjI0LDIyMywxMTAyLDIzLDUwLDIyNSwxMDAxLDQ0LDEwLDIyNCwxMDEsLTcyLDIyNCwyMjQsNCwyMjQsMTAyLDgsMjIzLDIyMywxMDEsMSwyMjQsMjI0LDEsMjI0LDIyMywyMjMsMTAyLDQ3LDIxNywyMjQsMTAwMSwyMjQsLTIzMDMsMjI0LDQsMjI0LDEwMiw4LDIyMywyMjMsMTAxLDIsMjI0LDIyNCwxLDIyMywyMjQsMjIzLDExMDIsNzEsODQsMjI1LDEwMSw5MSw0MCwyMjQsMTAwMSwyMjQsLTE1MSwyMjQsNCwyMjQsMTAwMiwyMjMsOCwyMjMsMTAwMSwyMjQsNSwyMjQsMSwyMjMsMjI0LDIyMywxMTAxLDg3LDkxLDIyNSwxMTAyLDcxLDE5LDIyNSwxLDkyLDE0MCwyMjQsMTAxLC0xMzQsMjI0LDIyNCw0LDIyNCwxMDAyLDIyMyw4LDIyMywxMDEsMSwyMjQsMjI0LDEsMjI0LDIyMywyMjMsMiwxNzAsMTY1LDIyNCwxMDAxLDIyNCwtMTY1MywyMjQsNCwyMjQsMTAwMiwyMjMsOCwyMjMsMTAxLDUsMjI0LDIyNCwxLDIyMywyMjQsMjIzLDExMDEsNDksMzIsMjI1LDQsMjIzLDk5LDAsMCwwLDY3NywwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMTEwNSwwLDk5OTk5LDExMDUsMjI3LDI0NywxMTA1LDEsOTk5OTksMTAwNSwyMjcsOTk5OTksMTAwNSwwLDI1NiwxMTA1LDEsOTk5OTksMTEwNiwyMjcsOTk5OTksMTEwNiwwLDI2NSwxMTA1LDEsOTk5OTksMTAwNiwwLDk5OTk5LDEwMDYsMjI3LDI3NCwxMTA1LDEsOTk5OTksMTEwNSwxLDI4MCwxMTA1LDEsOTk5OTksMSwyMjUsMjI1LDIyNSwxMTAxLDI5NCwwLDAsMTA1LDEsMCwxMTA1LDEsOTk5OTksMTEwNiwwLDMwMCwxMTA1LDEsOTk5OTksMSwyMjUsMjI1LDIyNSwxMTAxLDMxNCwwLDAsMTA2LDAsMCwxMTA1LDEsOTk5OTksMTEwNywyMjYsNjc3LDIyNCwxMDAyLDIyMywyLDIyMywxMDA2LDIyNCwzMjksMTAxLDEsMjIzLDIyMyw4LDIyNiwyMjYsMjI0LDEwMDIsMjIzLDIsMjIzLDEwMDUsMjI0LDM0NCwxMDEsMSwyMjMsMjIzLDEwMDcsNjc3LDIyNiwyMjQsMTAyLDIsMjIzLDIyMywxMDA1LDIyNCwzNTksMTAxLDEsMjIzLDIyMyw4LDIyNiw2NzcsMjI0LDEwMiwyLDIyMywyMjMsMTAwNSwyMjQsMzc0LDEwMSwxLDIyMywyMjMsMTEwNyw2NzcsNjc3LDIyNCwxMDAyLDIyMywyLDIyMywxMDA1LDIyNCwzODksMTAwMSwyMjMsMSwyMjMsMTA4LDIyNiw2NzcsMjI0LDEwMiwyLDIyMywyMjMsMTAwNSwyMjQsNDA0LDEwMDEsMjIzLDEsMjIzLDEwOCw2NzcsNjc3LDIyNCwxMDAyLDIyMywyLDIyMywxMDA2LDIyNCw0MTksMTAxLDEsMjIzLDIyMywxMDcsNjc3LDY3NywyMjQsMTAyLDIsMjIzLDIyMywxMDA2LDIyNCw0MzQsMTAxLDEsMjIzLDIyMywxMDgsMjI2LDIyNiwyMjQsMTAwMiwyMjMsMiwyMjMsMTAwNiwyMjQsNDQ5LDEwMDEsMjIzLDEsMjIzLDgsNjc3LDIyNiwyMjQsMTAwMiwyMjMsMiwyMjMsMTAwNSwyMjQsNDY0LDEwMSwxLDIyMywyMjMsMTEwOCwyMjYsNjc3LDIyNCwxMDAyLDIyMywyLDIyMywxMDA2LDIyNCw0NzksMTAwMSwyMjMsMSwyMjMsMTEwOCw2NzcsNjc3LDIyNCwxMDAyLDIyMywyLDIyMywxMDA1LDIyNCw0OTQsMTAxLDEsMjIzLDIyMyw3LDY3Nyw2NzcsMjI0LDEwMDIsMjIzLDIsMjIzLDEwMDUsMjI0LDUwOSwxMDEsMSwyMjMsMjIzLDEwMDcsNjc3LDY3NywyMjQsMTAwMiwyMjMsMiwyMjMsMTAwNSwyMjQsNTI0LDEwMSwxLDIyMywyMjMsNyw2NzcsMjI2LDIyNCwxMDAyLDIyMywyLDIyMywxMDA1LDIyNCw1MzksMTAxLDEsMjIzLDIyMywxMTA3LDY3NywyMjYsMjI0LDEwMiwyLDIyMywyMjMsMTAwNiwyMjQsNTU0LDEwMSwxLDIyMywyMjMsMTA3LDIyNiw2NzcsMjI0LDEwMDIsMjIzLDIsMjIzLDEwMDUsMjI0LDU2OSwxMDEsMSwyMjMsMjIzLDEwNywyMjYsMjI2LDIyNCwxMDAyLDIyMywyLDIyMywxMDA1LDIyNCw1ODQsMTAxLDEsMjIzLDIyMywxMTA4LDY3NywyMjYsMjI0LDEwMiwyLDIyMywyMjMsMTAwNiwyMjQsNTk5LDEwMDEsMjIzLDEsMjIzLDEwMDgsNjc3LDY3NywyMjQsMTAyLDIsMjIzLDIyMywxMDA2LDIyNCw2MTQsMTAxLDEsMjIzLDIyMyw3LDIyNiw2NzcsMjI0LDEwMiwyLDIyMywyMjMsMTAwNSwyMjQsNjI5LDEwMSwxLDIyMywyMjMsMTAwOCwyMjYsNjc3LDIyNCwxMDAyLDIyMywyLDIyMywxMDA2LDIyNCw2NDQsMTAxLDEsMjIzLDIyMywxMDA3LDIyNiwyMjYsMjI0LDEwMDIsMjIzLDIsMjIzLDEwMDUsMjI0LDY1OSwxMDAxLDIyMywxLDIyMywxMDA4LDIyNiwyMjYsMjI0LDEwMiwyLDIyMywyMjMsMTAwNiwyMjQsNjc0LDEwMDEsMjIzLDEsMjIzLDQsMjIzLDk5LDIyNlwiXG4ifQ== -->
+<pre><code>[1] &quot;loaded instruction_stream: 3,225,1,225,6,6,1100,1,238,225,104,0,1101,40,27,224,101,-67,224,224,4,224,1002,223,8,223,1001,224,2,224,1,224,223,223,1101,33,38,225,1102,84,60,225,1101,65,62,225,1002,36,13,224,1001,224,-494,224,4,224,1002,223,8,223,1001,224,3,224,1,223,224,223,1102,86,5,224,101,-430,224,224,4,224,1002,223,8,223,101,6,224,224,1,223,224,223,1102,23,50,225,1001,44,10,224,101,-72,224,224,4,224,102,8,223,223,101,1,224,224,1,224,223,223,102,47,217,224,1001,224,-2303,224,4,224,102,8,223,223,101,2,224,224,1,223,224,223,1102,71,84,225,101,91,40,224,1001,224,-151,224,4,224,1002,223,8,223,1001,224,5,224,1,223,224,223,1101,87,91,225,1102,71,19,225,1,92,140,224,101,-134,224,224,4,224,1002,223,8,223,101,1,224,224,1,224,223,223,2,170,165,224,1001,224,-1653,224,4,224,1002,223,8,223,101,5,224,224,1,223,224,223,1101,49,32,225,4,223,99,0,0,0,677,0,0,0,0,0,0,0,0,0,0,0,1105,0,99999,1105,227,247,1105,1,99999,1005,227,99999,1005,0,256,1105,1,99999,1106,227,99999,1106,0,265,1105,1,99999,1006,0,99999,1006,227,274,1105,1,99999,1105,1,280,1105,1,99999,1,225,225,225,1101,294,0,0,105,1,0,1105,1,99999,1106,0,300,1105,1,99999,1,225,225,225,1101,314,0,0,106,0,0,1105,1,99999,1107,226,677,224,1002,223,2,223,1006,224,329,101,1,223,223,8,226,226,224,1002,223,2,223,1005,224,344,101,1,223,223,1007,677,226,224,102,2,223,223,1005,224,359,101,1,223,223,8,226,677,224,102,2,223,223,1005,224,374,101,1,223,223,1107,677,677,224,1002,223,2,223,1005,224,389,1001,223,1,223,108,226,677,224,102,2,223,223,1005,224,404,1001,223,1,223,108,677,677,224,1002,223,2,223,1006,224,419,101,1,223,223,107,677,677,224,102,2,223,223,1006,224,434,101,1,223,223,108,226,226,224,1002,223,2,223,1006,224,449,1001,223,1,223,8,677,226,224,1002,223,2,223,1005,224,464,101,1,223,223,1108,226,677,224,1002,223,2,223,1006,224,479,1001,223,1,223,1108,677,677,224,1002,223,2,223,1005,224,494,101,1,223,223,7,677,677,224,1002,223,2,223,1005,224,509,101,1,223,223,1007,677,677,224,1002,223,2,223,1005,224,524,101,1,223,223,7,677,226,224,1002,223,2,223,1005,224,539,101,1,223,223,1107,677,226,224,102,2,223,223,1006,224,554,101,1,223,223,107,226,677,224,1002,223,2,223,1005,224,569,101,1,223,223,107,226,226,224,1002,223,2,223,1005,224,584,101,1,223,223,1108,677,226,224,102,2,223,223,1006,224,599,1001,223,1,223,1008,677,677,224,102,2,223,223,1006,224,614,101,1,223,223,7,226,677,224,102,2,223,223,1005,224,629,101,1,223,223,1008,226,677,224,1002,223,2,223,1006,224,644,101,1,223,223,1007,226,226,224,1002,223,2,223,1005,224,659,1001,223,1,223,1008,226,226,224,102,2,223,223,1006,224,674,1001,223,1,223,4,223,99,226&quot;</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 <div id="part-01-write-program-function" class="section level2">
 <h2>part 01: write program function</h2>
-<p>The following information is given on the function of the Opcode computer:</p>
-<ul>
-<li>Opcode 1 adds together numbers read from two positions and stores the result in a third position.<br />
-</li>
-<li>Opcode 2 works exactly like opcode 1, except it multiplies the two inputs instead of adding them.<br />
-</li>
-<li>Once you’re done processing an opcode, move to the next one by stepping forward 4 positions.<br />
-</li>
-<li>99 means that the program is finished and should immediately halt</li>
-</ul>
+<blockquote>
+<p>The TEST diagnostic program will run on your existing Intcode computer after a few modifications:</p>
+</blockquote>
+<p>For reference, the following is exactly the “computer” written for the day 02 solution:</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucnVuX3Byb2dyYW0gPC0gZnVuY3Rpb24ocHJvZ3JhbV9zdHJlYW0sIHZlcmJvc2UgPSBUKSB7XG4gIGkgPC0gMVxuICB3aGlsZSgob3Bjb2RlIDwtIHByb2dyYW1fc3RyZWFtW2ldKSAhPSA5OSkge1xuICAgIGlucHV0MS5hZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSsxXSsxXG4gICAgaW5wdXQyLmFkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzJdKzFcbiAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzFcbiAgICBcbiAgICBpbnB1dDEudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQxLmFkcmVzc11cbiAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc11cbiAgICAgIFxuICAgIGlmKG9wY29kZSA9PSAxKSB7XG4gICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdpbnN0cnVjdGlvbiAlczogd3JpdGluZyAlcyArICVzIHRvIHBvc2l0aW9uICVzJywgKGkrMykvNCwgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSlcbiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBpbnB1dDEudmFsdWUgKyBpbnB1dDIudmFsdWVcbiAgICAgIFxuICAgIH0gZWxzZSBpZihvcGNvZGUgPT0gMikge1xuICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignaW5zdHJ1Y3Rpb24gJXM6IHdyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIChpKzMpLzQsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlXG4gICAgXG4gICAgfSBlbHNlIHtcbiAgICAgIHN0b3Aoc3ByaW50ZigndW5rbm93biBvcGNvZGUgJXMnLCBvcGNvZGUpKVxuICAgIH1cbiAgICBcbiAgICBpIDwtIGkrNFxuICB9XG4gIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpXG4gIHJldHVybihwcm9ncmFtX3N0cmVhbSlcbn1cbmBgYCJ9 -->
-<pre class="r"><code>run_program &lt;- function(program_stream, verbose = T) {
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub2xkX2ludGNvZGVfY29tcHV0ZXIgPC0gZnVuY3Rpb24ocHJvZ3JhbV9zdHJlYW0sIHZlcmJvc2UgPSBUKSB7XG4gIGkgPC0gMVxuICB3aGlsZSgob3Bjb2RlIDwtIHByb2dyYW1fc3RyZWFtW2ldKSAhPSA5OSkge1xuICAgIGlucHV0MS5hZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSsxXSsxXG4gICAgaW5wdXQyLmFkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzJdKzFcbiAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzFcbiAgICBcbiAgICBpbnB1dDEudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQxLmFkcmVzc11cbiAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc11cbiAgICAgIFxuICAgIGlmKG9wY29kZSA9PSAxKSB7XG4gICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdpbnN0cnVjdGlvbiAlczogd3JpdGluZyAlcyArICVzIHRvIHBvc2l0aW9uICVzJywgKGkrMykvNCwgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSlcbiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBpbnB1dDEudmFsdWUgKyBpbnB1dDIudmFsdWVcbiAgICAgIFxuICAgIH0gZWxzZSBpZihvcGNvZGUgPT0gMikge1xuICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignaW5zdHJ1Y3Rpb24gJXM6IHdyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIChpKzMpLzQsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlXG4gICAgXG4gICAgfSBlbHNlIHtcbiAgICAgIHN0b3Aoc3ByaW50ZigndW5rbm93biBvcGNvZGUgJXMnLCBvcGNvZGUpKVxuICAgIH1cbiAgICBcbiAgICBpIDwtIGkrNFxuICB9XG4gIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpXG4gIHJldHVybihwcm9ncmFtX3N0cmVhbSlcbn1cbmBgYCJ9 -->
+<pre class="r"><code>old_intcode_computer &lt;- function(program_stream, verbose = T) {
   i &lt;- 1
   while((opcode &lt;- program_stream[i]) != 99) {
     input1.adress &lt;- program_stream[i+1]+1
@@ -1839,165 +1834,614 @@ sprintf(&#39;loaded instruction_stream: %s&#39;, paste(day02_input, collapse=&#3
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Then, validate the function on the examples given:</p>
+<p>Now, this hs to be extended wth two new instructions:</p>
+<ul>
+<li>Opcode 3 takes a single integer as input and saves it to the position given by its only parameter.<br />
+For example, the instruction 3,50 would take an input value and store it at address 50.<br />
+</li>
+<li>Opcode 4 outputs the value of its only parameter. For example, the instruction 4,50 would output the value at address 50.</li>
+<li>Second, you’ll need to add support for parameter modes: – Parameter mode 0, position mode, which causes the parameter to be interpreted as a position<br />
+– Parameters in mode 1, immediate mode. In immediate mode, a parameter is interpreted as a value – Parameters that an instruction writes to will never be in immediate mode.</li>
+</ul>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudmFsaWRhdGlvbl9zdHJlYW0uaW5wdXQgPC0gYygxLDksMTAsMywyLDMsMTEsMCw5OSwzMCw0MCw1MClcbnZhbGlkYXRpb25fc3RyZWFtLm91dHB1dCA8LSBydW5fcHJvZ3JhbSh2YWxpZGF0aW9uX3N0cmVhbS5pbnB1dCwgdmVyYm9zZSA9IEYpXG5pZGVudGljYWwodmFsaWRhdGlvbl9zdHJlYW0ub3V0cHV0LCBjKDM1MDAsOSwxMCw3MCwyLDMsMTEsMCw5OSwzMCw0MCw1MCkpXG5gYGAifQ== -->
-<pre class="r"><code>validation_stream.input &lt;- c(1,9,10,3,2,3,11,0,99,30,40,50)
-validation_stream.output &lt;- run_program(validation_stream.input, verbose = F)
-identical(validation_stream.output, c(3500,9,10,70,2,3,11,0,99,30,40,50))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
-<pre><code>[1] TRUE</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Looking good. Now for the mean trick:</p>
-<blockquote>
-<p>before running the program, replace position 1 with the value 12 and replace position 2 with the value 2. What value is left at position 0 after the program halts?</p>
-</blockquote>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGF5MDJfaW5wdXQuMTIwMnN0YXRlIDwtIGRheTAyX2lucHV0XG5kYXkwMl9pbnB1dC4xMjAyc3RhdGVbMl0gPC0gMTJcbmRheTAyX2lucHV0LjEyMDJzdGF0ZVszXSA8LSAyXG5cbmRheTAyX2ZpbmFsX3N0YXRlIDwtIHJ1bl9wcm9ncmFtKGRheTAyX2lucHV0LjEyMDJzdGF0ZSlcbmBgYCJ9 -->
-<pre class="r"><code>day02_input.1202state &lt;- day02_input
-day02_input.1202state[2] &lt;- 12
-day02_input.1202state[3] &lt;- 2
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2V0X29wY29kZSA8LSBmdW5jdGlvbihpbnB1dCkge1xuICBpbnB1dCAlPiUgYXMuY2hhcmFjdGVyICU+JSBzdHJzcGxpdChzcGxpdD0nJykgJT4lIHVubGlzdCAlPiUgdGFpbCgyKSAlPiUgcGFzdGUoY29sbGFwc2U9JycpICU+JSBhcy5pbnRlZ2VyXG59XG5nZXRfcGFyYW1fbW9kZXMgPC0gZnVuY3Rpb24oaW5wdXQpIHtcbiAgaW5wdXQgJT4lIGFzLmNoYXJhY3RlciAlPiUgc3Ryc3BsaXQoc3BsaXQ9JycpICU+JSB1bmxpc3QgJT4lIGhlYWQoLTIpICU+JSByZXZcbn1cblxuaW50Y29kZV9jb21wdXRlci52MSA8LSBmdW5jdGlvbihwcm9ncmFtX3N0cmVhbSwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBUKSB7XG4gIG91dHB1dCA8LSBjKClcbiAgXG4gIGkgPC0gMVxuICB3aGlsZSgob3Bjb2RlIDwtIGdldF9vcGNvZGUocHJvZ3JhbV9zdHJlYW1baV0pKSAhPSA5OSkge1xuICAgIHBhcmFtX21vZGVzIDwtIGdldF9wYXJhbV9tb2Rlcyhwcm9ncmFtX3N0cmVhbVtpXSlcbiAgICAgIFxuICAgIGlmKG9wY29kZSA9PSAxKSB7XG4gICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSlcbiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKVxuICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxXG4gICAgICBcbiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXVxuICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdXG4gICAgICBcbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKyAlcyB0byBwb3NpdGlvbiAlcycsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICsgaW5wdXQyLnZhbHVlXG4gICAgICBpIDwtIGkrNFxuICAgICAgXG4gICAgfSBlbHNlIGlmKG9wY29kZSA9PSAyKSB7XG4gICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSlcbiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKVxuICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxXG4gICAgICBcbiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXVxuICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdXG4gICAgICBcbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlXG4gICAgICBpIDwtIGkrNFxuICAgICAgXG4gICAgfSBlbHNlIGlmKG9wY29kZSA9PSAzKSB7XG4gICAgICBpbnB1dCA8LSBkZWZhdWx0LmlucHV0ICMgZm9yIHRoZSBlYXNlIG9mIG9wZXJhdGlvbiwgY29tbWVudGluZyB0aGlzIG91dC4gZ3Rvb2xzOjphc2sobXNnPSdQbGVhc2UgcHJvdmlkZSBpbnB1dCcpICU+JSBhcy5pbnRlZ2VyKClcbiAgICAgIFxuICAgICAgd3JpdGUuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzFdKzFcbiAgICAgIFxuICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignY29sbGVjdGVkIGlucHV0ICVzLCB3cml0aW5nIGl0IHRvIGFkZHJlc3MgJXMnLCBpbnB1dCwgd3JpdGUuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVt3cml0ZS5hZGRyZXNzXSA8LSBpbnB1dFxuICAgICAgaSA8LSBpKzJcbiAgICBcbiAgICB9IGVsc2UgaWYob3Bjb2RlID09IDQpIHtcbiAgICAgIGlucHV0LmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMV0pIHwgcGFyYW1fbW9kZXNbMV0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsxXSsxLCBpKzEpXG4gICAgICBpbnB1dC52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dC5hZHJlc3NdXG4gICAgICBcbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2luc3RydWN0aW9uOiB3cml0aW5nICVzIHRvIG91dHB1dCcsIGlucHV0LnZhbHVlKSlcbiAgICAgIG91dHB1dCA8LSBjKG91dHB1dCwgaW5wdXQudmFsdWUpXG4gICAgICBcbiAgICAgIGlmKGlucHV0LnZhbHVlICE9IDAgJiYgcHJvZ3JhbV9zdHJlYW1baSsyXSAhPSA5OSkge1xuICAgICAgICBzdG9wKHNwcmludGYoJ25vbi0wIG91dHB1dDogJXMuIHByZXZpb3VzbHkgZXhlY3V0ZWQgb3BlcmF0aW9uIGF0IGFkZHJlc3MgJXMnLCBpbnB1dC52YWx1ZSwgaS0xKSlcbiAgICAgIH1cbiAgICAgIGkgPC0gaSsyXG4gICAgICBcbiAgICB9IGVsc2Uge1xuICAgICAgc3RvcChzcHJpbnRmKCd1bmtub3duIG9wY29kZSAlcy4gcHJldmlvdXNseSBleGVjdXRlZCBvcGVyYXRpb24gYXQgYWRkcmVzcyAlcycsIG9wY29kZSwgaS0xKSlcbiAgICB9XG4gICAgXG4gIH1cbiAgXG4gIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpXG4gIHJldHVybihvdXRwdXQpXG59XG5gYGAifQ== -->
+<pre class="r"><code>get_opcode &lt;- function(input) {
+  input %&gt;% as.character %&gt;% strsplit(split=&#39;&#39;) %&gt;% unlist %&gt;% tail(2) %&gt;% paste(collapse=&#39;&#39;) %&gt;% as.integer
+}
+get_param_modes &lt;- function(input) {
+  input %&gt;% as.character %&gt;% strsplit(split=&#39;&#39;) %&gt;% unlist %&gt;% head(-2) %&gt;% rev
+}
 
-day02_final_state &lt;- run_program(day02_input.1202state)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiaW5zdHJ1Y3Rpb24gMTogd3JpdGluZyAxICsgMiB0byBwb3NpdGlvbiA0XCJcblsxXSBcImluc3RydWN0aW9uIDI6IHdyaXRpbmcgMTIgKyAyIHRvIHBvc2l0aW9uIDRcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gMzogd3JpdGluZyAxNCArIDEgdG8gcG9zaXRpb24gNFwiXG5bMV0gXCJpbnN0cnVjdGlvbiA0OiB3cml0aW5nIDEgKyAxIHRvIHBvc2l0aW9uIDRcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gNTogd3JpdGluZyA0ICogMTIgdG8gcG9zaXRpb24gMjBcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gNjogd3JpdGluZyAxICsgNDggdG8gcG9zaXRpb24gMjRcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gNzogd3JpdGluZyA0OSArIDEgdG8gcG9zaXRpb24gMjhcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gODogd3JpdGluZyA1MCArIDUgdG8gcG9zaXRpb24gMzJcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gOTogd3JpdGluZyA1NSArIDEgdG8gcG9zaXRpb24gMzZcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gMTA6IHdyaXRpbmcgMyArIDU2IHRvIHBvc2l0aW9uIDQwXCJcblsxXSBcImluc3RydWN0aW9uIDExOiB3cml0aW5nIDUgKiA1OSB0byBwb3NpdGlvbiA0NFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAxMjogd3JpdGluZyAyOTUgKyA0IHRvIHBvc2l0aW9uIDQ4XCJcblsxXSBcImluc3RydWN0aW9uIDEzOiB3cml0aW5nIDI5OSArIDUgdG8gcG9zaXRpb24gNTJcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gMTQ6IHdyaXRpbmcgNCAqIDMwNCB0byBwb3NpdGlvbiA1NlwiXG5bMV0gXCJpbnN0cnVjdGlvbiAxNTogd3JpdGluZyAxMjE2ICsgMSB0byBwb3NpdGlvbiA2MFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAxNjogd3JpdGluZyAxMjE3ICsgMSB0byBwb3NpdGlvbiA2NFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAxNzogd3JpdGluZyAxMjE4ICsgNSB0byBwb3NpdGlvbiA2OFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAxODogd3JpdGluZyA1ICsgMTIyMyB0byBwb3NpdGlvbiA3MlwiXG5bMV0gXCJpbnN0cnVjdGlvbiAxOTogd3JpdGluZyAxMjI4ICsgNCB0byBwb3NpdGlvbiA3NlwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyMDogd3JpdGluZyAyICsgMTIzMiB0byBwb3NpdGlvbiA4MFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyMTogd3JpdGluZyAyICsgMTIzNCB0byBwb3NpdGlvbiA4NFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyMjogd3JpdGluZyA0ICogMTIzNiB0byBwb3NpdGlvbiA4OFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyMzogd3JpdGluZyA0OTQ0ICsgMSB0byBwb3NpdGlvbiA5MlwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyNDogd3JpdGluZyAxICsgNDk0NSB0byBwb3NpdGlvbiA5NlwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyNTogd3JpdGluZyA0OTQ2ICogNCB0byBwb3NpdGlvbiAxMDBcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gMjY6IHdyaXRpbmcgMyArIDE5Nzg0IHRvIHBvc2l0aW9uIDEwNFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAyNzogd3JpdGluZyAxOTc4NyArIDUgdG8gcG9zaXRpb24gMTA4XCJcblsxXSBcImluc3RydWN0aW9uIDI4OiB3cml0aW5nIDQgKiAxOTc5MiB0byBwb3NpdGlvbiAxMTJcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gMjk6IHdyaXRpbmcgNSAqIDc5MTY4IHRvIHBvc2l0aW9uIDExNlwiXG5bMV0gXCJpbnN0cnVjdGlvbiAzMDogd3JpdGluZyAyICsgMzk1ODQwIHRvIHBvc2l0aW9uIDEyMFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAzMTogd3JpdGluZyAzOTU4NDIgKyA0IHRvIHBvc2l0aW9uIDEyNFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAzMjogd3JpdGluZyAzICogMzk1ODQ2IHRvIHBvc2l0aW9uIDEyOFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAzMzogd3JpdGluZyAxMTg3NTM4ICogMyB0byBwb3NpdGlvbiAxMzJcIlxuWzFdIFwiaW5zdHJ1Y3Rpb24gMzQ6IHdyaXRpbmcgMzU2MjYxNCArIDQgdG8gcG9zaXRpb24gMTM2XCJcblsxXSBcImluc3RydWN0aW9uIDM1OiB3cml0aW5nIDM1NjI2MTggKyAyIHRvIHBvc2l0aW9uIDE0MFwiXG5bMV0gXCJpbnN0cnVjdGlvbiAzNjogd3JpdGluZyA0ICsgMzU2MjYyMCB0byBwb3NpdGlvbiAxXCJcblsxXSBcImV4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uIDE0NVwiXG4ifQ== -->
-<pre><code>[1] &quot;instruction 1: writing 1 + 2 to position 4&quot;
-[1] &quot;instruction 2: writing 12 + 2 to position 4&quot;
-[1] &quot;instruction 3: writing 14 + 1 to position 4&quot;
-[1] &quot;instruction 4: writing 1 + 1 to position 4&quot;
-[1] &quot;instruction 5: writing 4 * 12 to position 20&quot;
-[1] &quot;instruction 6: writing 1 + 48 to position 24&quot;
-[1] &quot;instruction 7: writing 49 + 1 to position 28&quot;
-[1] &quot;instruction 8: writing 50 + 5 to position 32&quot;
-[1] &quot;instruction 9: writing 55 + 1 to position 36&quot;
-[1] &quot;instruction 10: writing 3 + 56 to position 40&quot;
-[1] &quot;instruction 11: writing 5 * 59 to position 44&quot;
-[1] &quot;instruction 12: writing 295 + 4 to position 48&quot;
-[1] &quot;instruction 13: writing 299 + 5 to position 52&quot;
-[1] &quot;instruction 14: writing 4 * 304 to position 56&quot;
-[1] &quot;instruction 15: writing 1216 + 1 to position 60&quot;
-[1] &quot;instruction 16: writing 1217 + 1 to position 64&quot;
-[1] &quot;instruction 17: writing 1218 + 5 to position 68&quot;
-[1] &quot;instruction 18: writing 5 + 1223 to position 72&quot;
-[1] &quot;instruction 19: writing 1228 + 4 to position 76&quot;
-[1] &quot;instruction 20: writing 2 + 1232 to position 80&quot;
-[1] &quot;instruction 21: writing 2 + 1234 to position 84&quot;
-[1] &quot;instruction 22: writing 4 * 1236 to position 88&quot;
-[1] &quot;instruction 23: writing 4944 + 1 to position 92&quot;
-[1] &quot;instruction 24: writing 1 + 4945 to position 96&quot;
-[1] &quot;instruction 25: writing 4946 * 4 to position 100&quot;
-[1] &quot;instruction 26: writing 3 + 19784 to position 104&quot;
-[1] &quot;instruction 27: writing 19787 + 5 to position 108&quot;
-[1] &quot;instruction 28: writing 4 * 19792 to position 112&quot;
-[1] &quot;instruction 29: writing 5 * 79168 to position 116&quot;
-[1] &quot;instruction 30: writing 2 + 395840 to position 120&quot;
-[1] &quot;instruction 31: writing 395842 + 4 to position 124&quot;
-[1] &quot;instruction 32: writing 3 * 395846 to position 128&quot;
-[1] &quot;instruction 33: writing 1187538 * 3 to position 132&quot;
-[1] &quot;instruction 34: writing 3562614 + 4 to position 136&quot;
-[1] &quot;instruction 35: writing 3562618 + 2 to position 140&quot;
-[1] &quot;instruction 36: writing 4 + 3562620 to position 1&quot;
-[1] &quot;exited gracefully, finding a opcode 99 at position 145&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3ByaW50ZignZmluYWwgdmFsdWUgYXQgcG9zaXRpb24gMDogJXMnLCBkYXkwMl9maW5hbF9zdGF0ZVsxXSlcbmBgYCJ9 -->
-<pre class="r"><code>sprintf(&#39;final value at position 0: %s&#39;, day02_final_state[1])</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiZmluYWwgdmFsdWUgYXQgcG9zaXRpb24gMDogMzU2MjYyNFwiXG4ifQ== -->
-<pre><code>[1] &quot;final value at position 0: 3562624&quot;</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>(“final value at position 0: 3562624”)</p>
-</div>
-<div id="part-02-find-the-input-to-output-19690720" class="section level2">
-<h2>part 02: find the input to output 19690720</h2>
-<blockquote>
-<p>In this program, the value placed in address 1 is called the noun, and the value placed in address 2 is called the verb.</p>
-</blockquote>
-<blockquote>
-<p>Each of the two input values will be between 0 and 99, inclusive.</p>
-</blockquote>
-<blockquote>
-<p>Each time you try a pair of inputs, make sure you first reset the computer’s memory to the values in the program (your puzzle input) - in other words, don’t reuse memory from a previous attempt.</p>
-</blockquote>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYnJ1dGVmb3JjZV9vdXRwdXRzIDwtIGZ1bmN0aW9uKHByb2dyYW1fc3RyZWFtLCBub3VucyA9IDA6OTksIHZlcmJzID0gMDo5OSwgdmVyYm9zZSA9IEYpIHtcbiAgcnVucyA8LSB0aWJibGUoKVxuICBmb3Iobm91biBpbiBub3Vucykge1xuICAgIGZvcih2ZXJiIGluIHZlcmJzKSB7XG4gICAgICBydW5fc3RhdGUgPC0gZGF5MDJfaW5wdXRcbiAgICAgIHJ1bl9zdGF0ZVsyXSA8LSBub3VuXG4gICAgICBydW5fc3RhdGVbM10gPC0gdmVyYlxuICAgICAgXG4gICAgICBydW4gPC0gdGliYmxlKFxuICAgICAgICBub3VuID0gbm91bixcbiAgICAgICAgdmVyYiA9IHZlcmIsXG4gICAgICAgIGluaXRpYWxfc3RhdGUgPSBsaXN0KHJ1bl9zdGF0ZSksXG4gICAgICAgIGZpbmFsX3N0YXRlID0gbGlzdChydW5fcHJvZ3JhbShydW5fc3RhdGUsIHZlcmJvc2UgPSBGKSksXG4gICAgICAgIG91dHB1dCA9IGZpbmFsX3N0YXRlW1sxXV1bMV1cbiAgICAgIClcbiAgICAgIFxuICAgICAgIyBkb24ndCB1c2UgdGhpcy4uIHRvbyBtdWNoIG91dHB1dCA+Xz5cbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3Byb2R1Y2VkICVzIHdpdGggbm91bjogJXMgJiB2ZXJiOiAlcycsIHJ1biRvdXRwdXQsIG5vdW4sIHZlcmIpKVxuICAgICAgXG4gICAgICBydW5zIDwtIHJ1bnMgJT4lXG4gICAgICAgIGJpbmRfcm93cyhydW4pXG4gICAgfVxuICB9XG4gIFxuICByZXR1cm4ocnVucylcbn1cbmBgYCJ9 -->
-<pre class="r"><code>bruteforce_outputs &lt;- function(program_stream, nouns = 0:99, verbs = 0:99, verbose = F) {
-  runs &lt;- tibble()
-  for(noun in nouns) {
-    for(verb in verbs) {
-      run_state &lt;- day02_input
-      run_state[2] &lt;- noun
-      run_state[3] &lt;- verb
+intcode_computer.v1 &lt;- function(program_stream, default.input = 1, verbose = T) {
+  output &lt;- c()
+  
+  i &lt;- 1
+  while((opcode &lt;- get_opcode(program_stream[i])) != 99) {
+    param_modes &lt;- get_param_modes(program_stream[i])
       
-      run &lt;- tibble(
-        noun = noun,
-        verb = verb,
-        initial_state = list(run_state),
-        final_state = list(run_program(run_state, verbose = F)),
-        output = final_state[[1]][1]
-      )
+    if(opcode == 1) {
+      input1.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input2.adress &lt;- ifelse(is.na(param_modes[2]) | param_modes[2] == 0, program_stream[i+2]+1, i+2)
+      output.address &lt;- program_stream[i+3]+1
       
-      # don&#39;t use this.. too much output &gt;_&gt;
-      if(verbose) print(sprintf(&#39;produced %s with noun: %s &amp; verb: %s&#39;, run$output, noun, verb))
+      input1.value &lt;- program_stream[input1.adress]
+      input2.value &lt;- program_stream[input2.adress]
       
-      runs &lt;- runs %&gt;%
-        bind_rows(run)
+      if(verbose) print(sprintf(&#39;writing %s + %s to position %s&#39;, input1.value, input2.value, output.address))
+      program_stream[output.address] &lt;- input1.value + input2.value
+      i &lt;- i+4
+      
+    } else if(opcode == 2) {
+      input1.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input2.adress &lt;- ifelse(is.na(param_modes[2]) | param_modes[2] == 0, program_stream[i+2]+1, i+2)
+      output.address &lt;- program_stream[i+3]+1
+      
+      input1.value &lt;- program_stream[input1.adress]
+      input2.value &lt;- program_stream[input2.adress]
+      
+      if(verbose) print(sprintf(&#39;writing %s * %s to position %s&#39;, input1.value, input2.value, output.address))
+      program_stream[output.address] &lt;- input1.value * input2.value
+      i &lt;- i+4
+      
+    } else if(opcode == 3) {
+      input &lt;- default.input # for the ease of operation, commenting this out. gtools::ask(msg=&#39;Please provide input&#39;) %&gt;% as.integer()
+      
+      write.address &lt;- program_stream[i+1]+1
+      
+      if(verbose) print(sprintf(&#39;collected input %s, writing it to address %s&#39;, input, write.address))
+      program_stream[write.address] &lt;- input
+      i &lt;- i+2
+    
+    } else if(opcode == 4) {
+      input.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input.value &lt;- program_stream[input.adress]
+      
+      if(verbose) print(sprintf(&#39;instruction: writing %s to output&#39;, input.value))
+      output &lt;- c(output, input.value)
+      
+      if(input.value != 0 &amp;&amp; program_stream[i+2] != 99) {
+        stop(sprintf(&#39;non-0 output: %s. previously executed operation at address %s&#39;, input.value, i-1))
+      }
+      i &lt;- i+2
+      
+    } else {
+      stop(sprintf(&#39;unknown opcode %s. previously executed operation at address %s&#39;, opcode, i-1))
     }
+    
   }
   
-  return(runs)
+  if(verbose) print(sprintf(&#39;exited gracefully, finding a opcode 99 at position %s&#39;, i))
+  return(output)
 }</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Again, validate the function by checking whether we can find the inputs to the first part of the puzzle, only based on its output.<br />
-This should deliver values for a bunch of input combinations, where we should find the output 3562624 being produced by noun: 12 &amp; verb: 2</p>
+<p>The validation actually comes as part of the execution, so we will run this diagnostic program.<br />
+If all outputs are 0, except the last one before hitting the 99-code, then we are good.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudmFsaWRhdGlvbl9pbyA8LSBicnV0ZWZvcmNlX291dHB1dHMoZGF5MDJfaW5wdXQsIG5vdW5zID0gMDoyMCwgdmVyYnMgPSAwOjIwLCB2ZXJib3NlID0gRilcbnZhbGlkYXRpb25faW8gJT4lXG4gIGZpbHRlcihvdXRwdXQgPT0gMzU2MjYyNCkgJT4lXG4gIHsuJG5vdW4gPT0gMTIgJiAuJHZlcmIgPT0gMn0gJT4lXG4gIGFsbFxuYGBgIn0= -->
-<pre class="r"><code>validation_io &lt;- bruteforce_outputs(day02_input, nouns = 0:20, verbs = 0:20, verbose = F)
-validation_io %&gt;%
-  filter(output == 3562624) %&gt;%
-  {.$noun == 12 &amp; .$verb == 2} %&gt;%
-  all</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGlhZ25vc3RpY19vdXRwdXQgPC0gaW50Y29kZV9jb21wdXRlci52MShkYXkwNV9pbnB1dCwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBUKVxuYGBgIn0= -->
+<pre class="r"><code>diagnostic_output &lt;- intcode_computer.v1(day05_input, default.input = 1, verbose = T)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiY29sbGVjdGVkIGlucHV0IDEsIHdyaXRpbmcgaXQgdG8gYWRkcmVzcyAyMjZcIlxuWzFdIFwid3JpdGluZyAxICsgMTEwMCB0byBwb3NpdGlvbiA3XCJcblsxXSBcIndyaXRpbmcgMSArIDIzOCB0byBwb3NpdGlvbiAyMjZcIlxuWzFdIFwiaW5zdHJ1Y3Rpb246IHdyaXRpbmcgMCB0byBvdXRwdXRcIlxuWzFdIFwid3JpdGluZyA0MCArIDI3IHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIC02NyArIDY3IHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJpbnN0cnVjdGlvbjogd3JpdGluZyAwIHRvIG91dHB1dFwiXG5bMV0gXCJ3cml0aW5nIDAgKiA4IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDAgKyAyIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDIgKyAwIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDMzICsgMzggdG8gcG9zaXRpb24gMjI2XCJcblsxXSBcIndyaXRpbmcgODQgKiA2MCB0byBwb3NpdGlvbiAyMjZcIlxuWzFdIFwid3JpdGluZyA2NSArIDYyIHRvIHBvc2l0aW9uIDIyNlwiXG5bMV0gXCJ3cml0aW5nIDM4ICogMTMgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgNDk0ICsgLTQ5NCB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwiaW5zdHJ1Y3Rpb246IHdyaXRpbmcgMCB0byBvdXRwdXRcIlxuWzFdIFwid3JpdGluZyAyICogOCB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwid3JpdGluZyAwICsgMyB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAxNiArIDMgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgODYgKiA1IHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIC00MzAgKyA0MzAgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcImluc3RydWN0aW9uOiB3cml0aW5nIDAgdG8gb3V0cHV0XCJcblsxXSBcIndyaXRpbmcgMTkgKiA4IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDYgKyAwIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDE1MiArIDYgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgMjMgKiA1MCB0byBwb3NpdGlvbiAyMjZcIlxuWzFdIFwid3JpdGluZyA2MiArIDEwIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIC03MiArIDcyIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJpbnN0cnVjdGlvbjogd3JpdGluZyAwIHRvIG91dHB1dFwiXG5bMV0gXCJ3cml0aW5nIDggKiAxNTggdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgMSArIDAgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMSArIDEyNjQgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgNDcgKiA0OSB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAyMzAzICsgLTIzMDMgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcImluc3RydWN0aW9uOiB3cml0aW5nIDAgdG8gb3V0cHV0XCJcblsxXSBcIndyaXRpbmcgOCAqIDEyNjUgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgMiArIDAgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMTAxMjAgKyAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDcxICogODQgdG8gcG9zaXRpb24gMjI2XCJcblsxXSBcIndyaXRpbmcgOTEgKyA2MCB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAxNTEgKyAtMTUxIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJpbnN0cnVjdGlvbjogd3JpdGluZyAwIHRvIG91dHB1dFwiXG5bMV0gXCJ3cml0aW5nIDEwMTIyICogOCB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwid3JpdGluZyAwICsgNSB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyA4MDk3NiArIDUgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgODcgKyA5MSB0byBwb3NpdGlvbiAyMjZcIlxuWzFdIFwid3JpdGluZyA3MSAqIDE5IHRvIHBvc2l0aW9uIDIyNlwiXG5bMV0gXCJ3cml0aW5nIDUwICsgODQgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgLTEzNCArIDEzNCB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwiaW5zdHJ1Y3Rpb246IHdyaXRpbmcgMCB0byBvdXRwdXRcIlxuWzFdIFwid3JpdGluZyA4MDk4MSAqIDggdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgMSArIDAgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMSArIDY0Nzg0OCB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwid3JpdGluZyAxOSAqIDg3IHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDE2NTMgKyAtMTY1MyB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwiaW5zdHJ1Y3Rpb246IHdyaXRpbmcgMCB0byBvdXRwdXRcIlxuWzFdIFwid3JpdGluZyA2NDc4NDkgKiA4IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDUgKyAwIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDUxODI3OTIgKyA1IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDQ5ICsgMzIgdG8gcG9zaXRpb24gMjI2XCJcblsxXSBcImluc3RydWN0aW9uOiB3cml0aW5nIDUxODI3OTcgdG8gb3V0cHV0XCJcblsxXSBcImV4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uIDIyM1wiXG4ifQ== -->
+<pre><code>[1] &quot;collected input 1, writing it to address 226&quot;
+[1] &quot;writing 1 + 1100 to position 7&quot;
+[1] &quot;writing 1 + 238 to position 226&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 40 + 27 to position 225&quot;
+[1] &quot;writing -67 + 67 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 0 * 8 to position 224&quot;
+[1] &quot;writing 0 + 2 to position 225&quot;
+[1] &quot;writing 2 + 0 to position 224&quot;
+[1] &quot;writing 33 + 38 to position 226&quot;
+[1] &quot;writing 84 * 60 to position 226&quot;
+[1] &quot;writing 65 + 62 to position 226&quot;
+[1] &quot;writing 38 * 13 to position 225&quot;
+[1] &quot;writing 494 + -494 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 2 * 8 to position 224&quot;
+[1] &quot;writing 0 + 3 to position 225&quot;
+[1] &quot;writing 16 + 3 to position 224&quot;
+[1] &quot;writing 86 * 5 to position 225&quot;
+[1] &quot;writing -430 + 430 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 19 * 8 to position 224&quot;
+[1] &quot;writing 6 + 0 to position 225&quot;
+[1] &quot;writing 152 + 6 to position 224&quot;
+[1] &quot;writing 23 * 50 to position 226&quot;
+[1] &quot;writing 62 + 10 to position 225&quot;
+[1] &quot;writing -72 + 72 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 8 * 158 to position 224&quot;
+[1] &quot;writing 1 + 0 to position 225&quot;
+[1] &quot;writing 1 + 1264 to position 224&quot;
+[1] &quot;writing 47 * 49 to position 225&quot;
+[1] &quot;writing 2303 + -2303 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 8 * 1265 to position 224&quot;
+[1] &quot;writing 2 + 0 to position 225&quot;
+[1] &quot;writing 10120 + 2 to position 224&quot;
+[1] &quot;writing 71 * 84 to position 226&quot;
+[1] &quot;writing 91 + 60 to position 225&quot;
+[1] &quot;writing 151 + -151 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 10122 * 8 to position 224&quot;
+[1] &quot;writing 0 + 5 to position 225&quot;
+[1] &quot;writing 80976 + 5 to position 224&quot;
+[1] &quot;writing 87 + 91 to position 226&quot;
+[1] &quot;writing 71 * 19 to position 226&quot;
+[1] &quot;writing 50 + 84 to position 225&quot;
+[1] &quot;writing -134 + 134 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 80981 * 8 to position 224&quot;
+[1] &quot;writing 1 + 0 to position 225&quot;
+[1] &quot;writing 1 + 647848 to position 224&quot;
+[1] &quot;writing 19 * 87 to position 225&quot;
+[1] &quot;writing 1653 + -1653 to position 225&quot;
+[1] &quot;instruction: writing 0 to output&quot;
+[1] &quot;writing 647849 * 8 to position 224&quot;
+[1] &quot;writing 5 + 0 to position 225&quot;
+[1] &quot;writing 5182792 + 5 to position 224&quot;
+[1] &quot;writing 49 + 32 to position 226&quot;
+[1] &quot;instruction: writing 5182797 to output&quot;
+[1] &quot;exited gracefully, finding a opcode 99 at position 223&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3ByaW50ZignZmluYWwgZGlhZ25vc3RpYyBjb2RlOiAlcycsIGRpYWdub3N0aWNfb3V0cHV0ICU+JSB0YWlsKDEpKVxuYGBgIn0= -->
+<pre class="r"><code>sprintf(&#39;final diagnostic code: %s&#39;, diagnostic_output %&gt;% tail(1))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiZmluYWwgZGlhZ25vc3RpYyBjb2RlOiA1MTgyNzk3XCJcbiJ9 -->
+<pre><code>[1] &quot;final diagnostic code: 5182797&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="part-02-add-some-more-instructions" class="section level2">
+<h2>part 02: add some more instructions</h2>
+<p>Surprisingly, part 02 asks to add even more functionality to the computer…</p>
+<ul>
+<li>Opcode 5 is jump-if-true: if the first parameter is non-zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.<br />
+</li>
+<li>Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.<br />
+</li>
+<li>Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.<br />
+</li>
+<li>Opcode 8 is equals: if the first parameter is equal to the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MiA8LSBmdW5jdGlvbihwcm9ncmFtX3N0cmVhbSwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBUKSB7XG4gIG91dHB1dCA8LSBjKClcbiAgXG4gIGkgPC0gMVxuICB3aGlsZSgob3Bjb2RlIDwtIGdldF9vcGNvZGUocHJvZ3JhbV9zdHJlYW1baV0pKSAhPSA5OSkge1xuICAgIHBhcmFtX21vZGVzIDwtIGdldF9wYXJhbV9tb2Rlcyhwcm9ncmFtX3N0cmVhbVtpXSlcbiAgICAgIFxuICAgIGlmKG9wY29kZSA9PSAxKSB7XG4gICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSlcbiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKVxuICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxXG4gICAgICBcbiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXVxuICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdXG4gICAgICBcbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKyAlcyB0byBwb3NpdGlvbiAlcycsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICsgaW5wdXQyLnZhbHVlXG4gICAgICBpIDwtIGkrNFxuICAgICAgXG4gICAgfSBlbHNlIGlmKG9wY29kZSA9PSAyKSB7XG4gICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSlcbiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKVxuICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxXG4gICAgICBcbiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXVxuICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdXG4gICAgICBcbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlXG4gICAgICBpIDwtIGkrNFxuICAgICAgXG4gICAgfSBlbHNlIGlmKG9wY29kZSA9PSAzKSB7XG4gICAgICBpbnB1dCA8LSBkZWZhdWx0LmlucHV0ICMgZm9yIHRoZSBlYXNlIG9mIG9wZXJhdGlvbiwgY29tbWVudGluZyB0aGlzIG91dC4gZ3Rvb2xzOjphc2sobXNnPSdQbGVhc2UgcHJvdmlkZSBpbnB1dCcpICU+JSBhcy5pbnRlZ2VyKClcbiAgICAgIFxuICAgICAgd3JpdGUuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzFdKzFcbiAgICAgIFxuICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignY29sbGVjdGVkIGlucHV0ICVzLCB3cml0aW5nIGl0IHRvIGFkZHJlc3MgJXMnLCBpbnB1dCwgd3JpdGUuYWRkcmVzcykpXG4gICAgICBwcm9ncmFtX3N0cmVhbVt3cml0ZS5hZGRyZXNzXSA8LSBpbnB1dFxuICAgICAgaSA8LSBpKzJcbiAgICBcbiAgICB9IGVsc2UgaWYob3Bjb2RlID09IDQpIHtcbiAgICAgIGlucHV0LmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMV0pIHwgcGFyYW1fbW9kZXNbMV0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsxXSsxLCBpKzEpXG4gICAgICBpbnB1dC52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dC5hZHJlc3NdXG4gICAgICBcbiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2luc3RydWN0aW9uOiB3cml0aW5nICVzIHRvIG91dHB1dCcsIGlucHV0LnZhbHVlKSlcbiAgICAgIG91dHB1dCA8LSBjKG91dHB1dCwgaW5wdXQudmFsdWUpXG4gICAgICBcbiAgICAgIGlmKGlucHV0LnZhbHVlICE9IDAgJiYgcHJvZ3JhbV9zdHJlYW1baSsyXSAhPSA5OSkge1xuICAgICAgICBzdG9wKHNwcmludGYoJ25vbi0wIG91dHB1dDogJXMuIHByZXZpb3VzbHkgZXhlY3V0ZWQgb3BlcmF0aW9uIGF0IGFkZHJlc3MgJXMnLCBpbnB1dC52YWx1ZSwgaS0xKSlcbiAgICAgIH1cbiAgICAgIGkgPC0gaSsyXG4gICAgICBcbiAgICB9IGVsc2UgaWYob3Bjb2RlICVpbiUgYyg1LDYpKSB7XG4gICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSlcbiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKVxuICAgICAgXG4gICAgICBpbnB1dDEudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQxLmFkcmVzc11cbiAgICAgIGlucHV0Mi52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDIuYWRyZXNzXVxuICAgICAgXG4gICAgICBpZihvcGNvZGUgPT0gNSAmIGlucHV0MS52YWx1ZSAhPSAwKSB7XG4gICAgICAgIGkgPC0gaW5wdXQyLnZhbHVlKzFcbiAgICAgIH0gZWxzZSBpZihvcGNvZGUgPT0gNiAmIGlucHV0MS52YWx1ZSA9PSAwKSB7XG4gICAgICAgIGkgPC0gaW5wdXQyLnZhbHVlKzFcbiAgICAgIH0gZWxzZSB7XG4gICAgICAgIGkgPC0gaSszXG4gICAgICB9XG4gICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzICVzJywgaSkpXG4gICAgICBcbiAgICB9IGVsc2UgaWYob3Bjb2RlICVpbiUgYyg3LDgpKSB7XG4gICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSlcbiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKVxuICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxXG4gICAgICBcbiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXVxuICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdXG4gICAgICBvdXRwdXQudmFsdWUgPC0gY2FzZV93aGVuKFxuICAgICAgICBvcGNvZGUgPT0gNyB+IGFzLmludGVnZXIoaW5wdXQxLnZhbHVlIDwgaW5wdXQyLnZhbHVlKSxcbiAgICAgICAgb3Bjb2RlID09IDggfiBhcy5pbnRlZ2VyKGlucHV0MS52YWx1ZSA9PSBpbnB1dDIudmFsdWUpLFxuICAgICAgICBUIH4gMFxuICAgICAgKVxuICAgICAgXG4gICAgICBpZih2ZXJib3NlICYmIG9wY29kZSA9PSA3KSBwcmludChzcHJpbnRmKCd3cml0aW5nICVzICglcyA8ICVzKSB0byBwb3NpdGlvbiAlcycsIG91dHB1dC52YWx1ZSwgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSlcbiAgICAgIGlmKHZlcmJvc2UgJiYgb3Bjb2RlID09IDgpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKCVzID09ICVzKSB0byBwb3NpdGlvbiAlcycsIG91dHB1dC52YWx1ZSwgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSlcbiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBvdXRwdXQudmFsdWVcbiAgICAgIGkgPC0gaSs0XG4gICAgICBcbiAgICB9IGVsc2Uge1xuICAgICAgc3RvcChzcHJpbnRmKCd1bmtub3duIG9wY29kZSAlcy4gcHJldmlvdXNseSBleGVjdXRlZCBvcGVyYXRpb24gYXQgYWRkcmVzcyAlcycsIG9wY29kZSwgaS0xKSlcbiAgICB9XG4gICAgXG4gIH1cbiAgXG4gIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpXG4gIHJldHVybihvdXRwdXQpXG59XG5gYGAifQ== -->
+<pre class="r"><code>intcode_computer.v2 &lt;- function(program_stream, default.input = 1, verbose = T) {
+  output &lt;- c()
+  
+  i &lt;- 1
+  while((opcode &lt;- get_opcode(program_stream[i])) != 99) {
+    param_modes &lt;- get_param_modes(program_stream[i])
+      
+    if(opcode == 1) {
+      input1.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input2.adress &lt;- ifelse(is.na(param_modes[2]) | param_modes[2] == 0, program_stream[i+2]+1, i+2)
+      output.address &lt;- program_stream[i+3]+1
+      
+      input1.value &lt;- program_stream[input1.adress]
+      input2.value &lt;- program_stream[input2.adress]
+      
+      if(verbose) print(sprintf(&#39;writing %s + %s to position %s&#39;, input1.value, input2.value, output.address))
+      program_stream[output.address] &lt;- input1.value + input2.value
+      i &lt;- i+4
+      
+    } else if(opcode == 2) {
+      input1.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input2.adress &lt;- ifelse(is.na(param_modes[2]) | param_modes[2] == 0, program_stream[i+2]+1, i+2)
+      output.address &lt;- program_stream[i+3]+1
+      
+      input1.value &lt;- program_stream[input1.adress]
+      input2.value &lt;- program_stream[input2.adress]
+      
+      if(verbose) print(sprintf(&#39;writing %s * %s to position %s&#39;, input1.value, input2.value, output.address))
+      program_stream[output.address] &lt;- input1.value * input2.value
+      i &lt;- i+4
+      
+    } else if(opcode == 3) {
+      input &lt;- default.input # for the ease of operation, commenting this out. gtools::ask(msg=&#39;Please provide input&#39;) %&gt;% as.integer()
+      
+      write.address &lt;- program_stream[i+1]+1
+      
+      if(verbose) print(sprintf(&#39;collected input %s, writing it to address %s&#39;, input, write.address))
+      program_stream[write.address] &lt;- input
+      i &lt;- i+2
+    
+    } else if(opcode == 4) {
+      input.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input.value &lt;- program_stream[input.adress]
+      
+      if(verbose) print(sprintf(&#39;instruction: writing %s to output&#39;, input.value))
+      output &lt;- c(output, input.value)
+      
+      if(input.value != 0 &amp;&amp; program_stream[i+2] != 99) {
+        stop(sprintf(&#39;non-0 output: %s. previously executed operation at address %s&#39;, input.value, i-1))
+      }
+      i &lt;- i+2
+      
+    } else if(opcode %in% c(5,6)) {
+      input1.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input2.adress &lt;- ifelse(is.na(param_modes[2]) | param_modes[2] == 0, program_stream[i+2]+1, i+2)
+      
+      input1.value &lt;- program_stream[input1.adress]
+      input2.value &lt;- program_stream[input2.adress]
+      
+      if(opcode == 5 &amp; input1.value != 0) {
+        i &lt;- input2.value+1
+      } else if(opcode == 6 &amp; input1.value == 0) {
+        i &lt;- input2.value+1
+      } else {
+        i &lt;- i+3
+      }
+      if(verbose) print(sprintf(&#39;jump: moving instruction pointer to address %s&#39;, i))
+      
+    } else if(opcode %in% c(7,8)) {
+      input1.adress &lt;- ifelse(is.na(param_modes[1]) | param_modes[1] == 0, program_stream[i+1]+1, i+1)
+      input2.adress &lt;- ifelse(is.na(param_modes[2]) | param_modes[2] == 0, program_stream[i+2]+1, i+2)
+      output.address &lt;- program_stream[i+3]+1
+      
+      input1.value &lt;- program_stream[input1.adress]
+      input2.value &lt;- program_stream[input2.adress]
+      output.value &lt;- case_when(
+        opcode == 7 ~ as.integer(input1.value &lt; input2.value),
+        opcode == 8 ~ as.integer(input1.value == input2.value),
+        T ~ 0
+      )
+      
+      if(verbose &amp;&amp; opcode == 7) print(sprintf(&#39;writing %s (%s &lt; %s) to position %s&#39;, output.value, input1.value, input2.value, output.address))
+      if(verbose &amp;&amp; opcode == 8) print(sprintf(&#39;writing %s (%s == %s) to position %s&#39;, output.value, input1.value, input2.value, output.address))
+      program_stream[output.address] &lt;- output.value
+      i &lt;- i+4
+      
+    } else {
+      stop(sprintf(&#39;unknown opcode %s. previously executed operation at address %s&#39;, opcode, i-1))
+    }
+    
+  }
+  
+  if(verbose) print(sprintf(&#39;exited gracefully, finding a opcode 99 at position %s&#39;, i))
+  return(output)
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>For validation, there are some examples given:</p>
+<ul>
+<li><code>3,9,8,9,10,9,4,9,99,-1,8</code> - Using position mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw4LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA5LCB2ZXJib3NlID0gRikgPT0gMFxuYGBgIn0= -->
+<pre class="r"><code>intcode_computer.v2(c(3,9,8,9,10,9,4,9,99,-1,8), default.input = 9, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw4LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA4LCB2ZXJib3NlID0gRikgPT0gMVxuXG5gYGAifQ== -->
+<pre class="r"><code>intcode_computer.v2(c(3,9,8,9,10,9,4,9,99,-1,8), default.input = 8, verbose = F) == 1
+</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
 <pre><code>[1] TRUE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>This works, even if it may be a very dumb approach…<br />
-Nobody said I can’t be dumb.</p>
+<ul>
+<li><code>3,9,7,9,10,9,4,9,99,-1,8</code> - Using position mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).</li>
+</ul>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudmFsaWRhdGlvbl9pbyA8LSBicnV0ZWZvcmNlX291dHB1dHMoZGF5MDJfaW5wdXQsIG5vdW5zID0gMDo5OSwgdmVyYnMgPSAwOjk5LCB2ZXJib3NlID0gRilcbmRheTAyX3Jlc3VsdC5pbnB1dCA8LSB2YWxpZGF0aW9uX2lvICU+JVxuICBmaWx0ZXIob3V0cHV0ID09IDE5NjkwNzIwKSAlPiVcbiAgbXV0YXRlKFxuICAgIGlucHV0X3BhcmFtID0gMTAwICogbm91biArIHZlcmJcbiAgKVxuXG5zcHJpbnRmKCdmb3VuZCBleGFjdGx5ICVzIGlucHV0cyB0aGF0IGxlYWQgdG8gdGhlIG91dHB1dCAxOTY5MDcyMC4gdGhpcyB3b3VsZCBiZSB0aGUgcHJvZ3JhbShzKSAlcycsIG5yb3coZGF5MDJfcmVzdWx0LmlucHV0KSwgZGF5MDJfcmVzdWx0LmlucHV0JGlucHV0X3BhcmFtKVxuYGBgIn0= -->
-<pre class="r"><code>validation_io &lt;- bruteforce_outputs(day02_input, nouns = 0:99, verbs = 0:99, verbose = F)
-day02_result.input &lt;- validation_io %&gt;%
-  filter(output == 19690720) %&gt;%
-  mutate(
-    input_param = 100 * noun + verb
-  )
-
-sprintf(&#39;found exactly %s inputs that lead to the output 19690720. this would be the program(s) %s&#39;, nrow(day02_result.input), day02_result.input$input_param)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw3LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA5LCB2ZXJib3NlID0gRikgPT0gMFxuYGBgIn0= -->
+<pre class="r"><code>intcode_computer.v2(c(3,9,7,9,10,9,4,9,99,-1,8), default.input = 9, verbose = F) == 0</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiZm91bmQgZXhhY3RseSAxIGlucHV0cyB0aGF0IGxlYWQgdG8gdGhlIG91dHB1dCAxOTY5MDcyMC4gdGhpcyB3b3VsZCBiZSB0aGUgcHJvZ3JhbShzKSA4Mjk4XCJcbiJ9 -->
-<pre><code>[1] &quot;found exactly 1 inputs that lead to the output 19690720. this would be the program(s) 8298&quot;</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>(“found exactly 1 inputs that lead to the output 19690720. this would be the program(s) 8298”)</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw3LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA4LCB2ZXJib3NlID0gRikgPT0gMFxuYGBgIn0= -->
+<pre class="r"><code>intcode_computer.v2(c(3,9,7,9,10,9,4,9,99,-1,8), default.input = 8, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw3LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA3LCB2ZXJib3NlID0gRikgPT0gMVxuYGBgIn0= -->
+<pre class="r"><code>intcode_computer.v2(c(3,9,7,9,10,9,4,9,99,-1,8), default.input = 7, verbose = F) == 1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><code>3,3,1108,-1,8,3,4,3,99</code> - Using immediate mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA4LC0xLDgsMyw0LDMsOTkpLCBkZWZhdWx0LmlucHV0ID0gOSwgdmVyYm9zZSA9IEYpID09IDBcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1108,-1,8,3,4,3,99), default.input = 9, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA4LC0xLDgsMyw0LDMsOTkpLCBkZWZhdWx0LmlucHV0ID0gOCwgdmVyYm9zZSA9IEYpID09IDFcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1108,-1,8,3,4,3,99), default.input = 8, verbose = F) == 1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><code>3,3,1107,-1,8,3,4,3,99</code> - Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA3LC0xLDgsMyw0LDMsOTkpLCBkZWZhdWx0LmlucHV0ID0gOSwgdmVyYm9zZSA9IEYpID09IDBcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1107,-1,8,3,4,3,99), default.input = 9, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA3LC0xLDgsMyw0LDMsOTkpLCBkZWZhdWx0LmlucHV0ID0gOCwgdmVyYm9zZSA9IEYpID09IDBcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1107,-1,8,3,4,3,99), default.input = 8, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA3LC0xLDgsMyw0LDMsOTkpLCBkZWZhdWx0LmlucHV0ID0gNywgdmVyYm9zZSA9IEYpID09IDFcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1107,-1,8,3,4,3,99), default.input = 7, verbose = F) == 1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The part 02 task also provides some jump tests that take an input, then output 0 if the input was zero or 1 if the input was non-zero:</p>
+<ul>
+<li><code>3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9</code> (using position mode)</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMTIsNiwxMiwxNSwxLDEzLDE0LDEzLDQsMTMsOTksLTEsMCwxLDkpLCBkZWZhdWx0LmlucHV0ID0gMCwgdmVyYm9zZSA9IEYpID09IDBcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9), default.input = 0, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMTIsNiwxMiwxNSwxLDEzLDE0LDEzLDQsMTMsOTksLTEsMCwxLDkpLCBkZWZhdWx0LmlucHV0ID0gMSwgdmVyYm9zZSA9IEYpID09IDFcbmBgYCJ9 -->
+<pre class="r"><code>intcode_computer.v2(c(3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9), default.input = 1, verbose = F) == 1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<ul>
+<li><code>3,3,1105,-1,9,1101,0,0,12,4,12,99,1</code> (using immediate mode)</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA1LC0xLDksMTEwMSwwLDAsMTIsNCwxMiw5OSwxKSwgZGVmYXVsdC5pbnB1dCA9IDAsIHZlcmJvc2UgPSBGKSA9PSAwXG5gYGAifQ== -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1105,-1,9,1101,0,0,12,4,12,99,1), default.input = 0, verbose = F) == 0</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA1LC0xLDksMTEwMSwwLDAsMTIsNCwxMiw5OSwxKSwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBGKSA9PSAxXG5gYGAifQ== -->
+<pre class="r"><code>intcode_computer.v2(c(3,3,1105,-1,9,1101,0,0,12,4,12,99,1), default.input = 1, verbose = F) == 1</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>And a final larger example:</p>
+<ul>
+<li><code>3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99</code> - this example program uses an input instruction to ask for a single number.<br />
+The program will then output 999 if the input value is below 8, output 1000 if the input value is equal to 8, or output 1001 if the input value is greater than 8.</li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5pbnRjb2RlX2NvbXB1dGVyLnYyKGMoMywyMSwxMDA4LDIxLDgsMjAsMTAwNSwyMCwyMiwxMDcsOCwyMSwyMCwxMDA2LDIwLDMxLDExMDYsMCwzNiw5OCwwLDAsMTAwMiwyMSwxMjUsMjAsNCwyMCwxMTA1LDEsNDYsMTA0LDk5OSwxMTA1LDEsNDYsMTEwMSwxMDAwLDEsMjAsNCwyMCwxMTA1LDEsNDYsOTgsOTkpLCBkZWZhdWx0LmlucHV0ID0gNywgdmVyYm9zZSA9IEYpID09IDk5OVxuYGBgIn0= -->
+<pre class="r"><code>
+intcode_computer.v2(c(3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99), default.input = 7, verbose = F) == 999</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMjEsMTAwOCwyMSw4LDIwLDEwMDUsMjAsMjIsMTA3LDgsMjEsMjAsMTAwNiwyMCwzMSwxMTA2LDAsMzYsOTgsMCwwLDEwMDIsMjEsMTI1LDIwLDQsMjAsMTEwNSwxLDQ2LDEwNCw5OTksMTEwNSwxLDQ2LDExMDEsMTAwMCwxLDIwLDQsMjAsMTEwNSwxLDQ2LDk4LDk5KSwgZGVmYXVsdC5pbnB1dCA9IDgsIHZlcmJvc2UgPSBGKSA9PSAxMDAwXG5gYGAifQ== -->
+<pre class="r"><code>intcode_computer.v2(c(3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99), default.input = 8, verbose = F) == 1000</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW50Y29kZV9jb21wdXRlci52MihjKDMsMjEsMTAwOCwyMSw4LDIwLDEwMDUsMjAsMjIsMTA3LDgsMjEsMjAsMTAwNiwyMCwzMSwxMTA2LDAsMzYsOTgsMCwwLDEwMDIsMjEsMTI1LDIwLDQsMjAsMTEwNSwxLDQ2LDEwNCw5OTksMTEwNSwxLDQ2LDExMDEsMTAwMCwxLDIwLDQsMjAsMTEwNSwxLDQ2LDk4LDk5KSwgZGVmYXVsdC5pbnB1dCA9IDksIHZlcmJvc2UgPSBGKSA9PSAxMDAxXG5gYGAifQ== -->
+<pre class="r"><code>intcode_computer.v2(c(3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99), default.input = 9, verbose = F) == 1001</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>(all works well, but we had to remove the condition to test that non-zero outputs had to be followed by a 99-opcode.)</p>
+<p>So, finally, let’s run this thing for the quiz input.<br />
+This diagnostic test suite only outputs one number, the diagnostic code.</p>
+<blockquote>
+<p>What is the diagnostic code for system ID 5?</p>
+</blockquote>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGlhZ25vc3RpY19jb2RlLnYyIDwtIGludGNvZGVfY29tcHV0ZXIudjIoZGF5MDVfaW5wdXQsIGRlZmF1bHQuaW5wdXQgPSA1LCB2ZXJib3NlID0gVCwgZGlhZ25vc3RpY19tb2RlID0gRilcblxuYGBgIn0= -->
+<pre class="r"><code>diagnostic_code.v2 &lt;- intcode_computer.v2(day05_input, default.input = 5, verbose = T, diagnostic_mode = F)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiY29sbGVjdGVkIGlucHV0IDUsIHdyaXRpbmcgaXQgdG8gYWRkcmVzcyAyMjZcIlxuWzFdIFwid3JpdGluZyA1ICsgMTEwMCB0byBwb3NpdGlvbiA3XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjM5XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjQyXCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjQ4XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjUxXCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjU3XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjYwXCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjY2XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjY5XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjc1XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjgxXCJcblsxXSBcIndyaXRpbmcgNSArIDUgdG8gcG9zaXRpb24gMjI2XCJcblsxXSBcIndyaXRpbmcgMjk0ICsgMCB0byBwb3NpdGlvbiAxXCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMjk1XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMzAxXCJcblsxXSBcIndyaXRpbmcgMTAgKyAxMCB0byBwb3NpdGlvbiAyMjZcIlxuWzFdIFwid3JpdGluZyAzMTQgKyAwIHRvIHBvc2l0aW9uIDFcIlxuWzFdIFwianVtcDogbW92aW5nIGluc3RydWN0aW9uIHBvaW50ZXIgdG8gYWRkcmVzcyAzMTVcIlxuWzFdIFwid3JpdGluZyAxICgyMjYgPCA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDAgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDMyNlwiXG5bMV0gXCJ3cml0aW5nIDEgKyAwIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDEgKDY3NyA9PSA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDEgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDM0NVwiXG5bMV0gXCJ3cml0aW5nIDAgKDIyNiA8IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMiAqIDIgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMzU2XCJcblsxXSBcIndyaXRpbmcgMSArIDQgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgMCAoNjc3ID09IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMiAqIDUgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgMzcxXCJcblsxXSBcIndyaXRpbmcgMSArIDEwIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDAgKDY3NyA8IDY3NykgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMTEgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDM4NlwiXG5bMV0gXCJ3cml0aW5nIDIyICsgMSB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwid3JpdGluZyAxICgyMjYgPT0gMjI2KSB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAyICogMjMgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNDA1XCJcblsxXSBcIndyaXRpbmcgMCAoNjc3ID09IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgNDYgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDQyMFwiXG5bMV0gXCJ3cml0aW5nIDAgKDY3NyA8IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMiAqIDkyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDQzNVwiXG5bMV0gXCJ3cml0aW5nIDAgKDIyNiA9PSA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDE4NCAqIDIgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNDUwXCJcblsxXSBcIndyaXRpbmcgMCAoMjI2ID09IDY3NykgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMzY4ICogMiB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwianVtcDogbW92aW5nIGluc3RydWN0aW9uIHBvaW50ZXIgdG8gYWRkcmVzcyA0NjFcIlxuWzFdIFwid3JpdGluZyAxICsgNzM2IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDAgKDIyNiA9PSA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDczNyAqIDIgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNDgwXCJcblsxXSBcIndyaXRpbmcgMSAoNjc3ID09IDY3NykgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMTQ3NCAqIDIgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNDk1XCJcblsxXSBcIndyaXRpbmcgMCAoMjI2IDwgMjI2KSB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAyOTQ4ICogMiB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwianVtcDogbW92aW5nIGluc3RydWN0aW9uIHBvaW50ZXIgdG8gYWRkcmVzcyA1MDZcIlxuWzFdIFwid3JpdGluZyAxICsgNTg5NiB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwid3JpdGluZyAxICgyMjYgPCA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDU4OTcgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDUyNVwiXG5bMV0gXCJ3cml0aW5nIDEgKDIyNiA8IDY3NykgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMTE3OTQgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDU0MFwiXG5bMV0gXCJ3cml0aW5nIDAgKDY3NyA8IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMiAqIDIzNTg4IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDU1NVwiXG5bMV0gXCJ3cml0aW5nIDAgKDIyNiA8IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgNDcxNzYgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDU2NlwiXG5bMV0gXCJ3cml0aW5nIDEgKyA5NDM1MiB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwid3JpdGluZyAxICgyMjYgPCA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDk0MzUzICogMiB0byBwb3NpdGlvbiAyMjRcIlxuWzFdIFwianVtcDogbW92aW5nIGluc3RydWN0aW9uIHBvaW50ZXIgdG8gYWRkcmVzcyA1ODVcIlxuWzFdIFwid3JpdGluZyAwICg2NzcgPT0gMjI2KSB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAyICogMTg4NzA2IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDYwMFwiXG5bMV0gXCJ3cml0aW5nIDAgKDIyNiA9PSA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDIgKiAzNzc0MTIgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNjE1XCJcblsxXSBcIndyaXRpbmcgMCAoNjc3IDwgMjI2KSB0byBwb3NpdGlvbiAyMjVcIlxuWzFdIFwid3JpdGluZyAyICogNzU0ODI0IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDYyNlwiXG5bMV0gXCJ3cml0aW5nIDEgKyAxNTA5NjQ4IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDEgKDY3NyA9PSA2NzcpIHRvIHBvc2l0aW9uIDIyNVwiXG5bMV0gXCJ3cml0aW5nIDE1MDk2NDkgKiAyIHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJqdW1wOiBtb3ZpbmcgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byBhZGRyZXNzIDY0MVwiXG5bMV0gXCJ3cml0aW5nIDEgKyAzMDE5Mjk4IHRvIHBvc2l0aW9uIDIyNFwiXG5bMV0gXCJ3cml0aW5nIDAgKDY3NyA8IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMzAxOTI5OSAqIDIgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNjU2XCJcblsxXSBcIndyaXRpbmcgNjAzODU5OCArIDEgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcIndyaXRpbmcgMCAoNjc3ID09IDIyNikgdG8gcG9zaXRpb24gMjI1XCJcblsxXSBcIndyaXRpbmcgMiAqIDYwMzg1OTkgdG8gcG9zaXRpb24gMjI0XCJcblsxXSBcImp1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgNjc1XCJcblsxXSBcImluc3RydWN0aW9uOiB3cml0aW5nIDEyMDc3MTk4IHRvIG91dHB1dFwiXG5bMV0gXCJleGl0ZWQgZ3JhY2VmdWxseSwgZmluZGluZyBhIG9wY29kZSA5OSBhdCBwb3NpdGlvbiA2NzdcIlxuIn0= -->
+<pre><code>[1] &quot;collected input 5, writing it to address 226&quot;
+[1] &quot;writing 5 + 1100 to position 7&quot;
+[1] &quot;jump: moving instruction pointer to address 239&quot;
+[1] &quot;jump: moving instruction pointer to address 242&quot;
+[1] &quot;jump: moving instruction pointer to address 248&quot;
+[1] &quot;jump: moving instruction pointer to address 251&quot;
+[1] &quot;jump: moving instruction pointer to address 257&quot;
+[1] &quot;jump: moving instruction pointer to address 260&quot;
+[1] &quot;jump: moving instruction pointer to address 266&quot;
+[1] &quot;jump: moving instruction pointer to address 269&quot;
+[1] &quot;jump: moving instruction pointer to address 275&quot;
+[1] &quot;jump: moving instruction pointer to address 281&quot;
+[1] &quot;writing 5 + 5 to position 226&quot;
+[1] &quot;writing 294 + 0 to position 1&quot;
+[1] &quot;jump: moving instruction pointer to address 295&quot;
+[1] &quot;jump: moving instruction pointer to address 301&quot;
+[1] &quot;writing 10 + 10 to position 226&quot;
+[1] &quot;writing 314 + 0 to position 1&quot;
+[1] &quot;jump: moving instruction pointer to address 315&quot;
+[1] &quot;writing 1 (226 &lt; 677) to position 225&quot;
+[1] &quot;writing 0 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 326&quot;
+[1] &quot;writing 1 + 0 to position 224&quot;
+[1] &quot;writing 1 (677 == 677) to position 225&quot;
+[1] &quot;writing 1 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 345&quot;
+[1] &quot;writing 0 (226 &lt; 226) to position 225&quot;
+[1] &quot;writing 2 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 356&quot;
+[1] &quot;writing 1 + 4 to position 224&quot;
+[1] &quot;writing 0 (677 == 226) to position 225&quot;
+[1] &quot;writing 2 * 5 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 371&quot;
+[1] &quot;writing 1 + 10 to position 224&quot;
+[1] &quot;writing 0 (677 &lt; 677) to position 225&quot;
+[1] &quot;writing 11 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 386&quot;
+[1] &quot;writing 22 + 1 to position 224&quot;
+[1] &quot;writing 1 (226 == 226) to position 225&quot;
+[1] &quot;writing 2 * 23 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 405&quot;
+[1] &quot;writing 0 (677 == 226) to position 225&quot;
+[1] &quot;writing 46 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 420&quot;
+[1] &quot;writing 0 (677 &lt; 226) to position 225&quot;
+[1] &quot;writing 2 * 92 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 435&quot;
+[1] &quot;writing 0 (226 == 677) to position 225&quot;
+[1] &quot;writing 184 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 450&quot;
+[1] &quot;writing 0 (226 == 677) to position 225&quot;
+[1] &quot;writing 368 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 461&quot;
+[1] &quot;writing 1 + 736 to position 224&quot;
+[1] &quot;writing 0 (226 == 677) to position 225&quot;
+[1] &quot;writing 737 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 480&quot;
+[1] &quot;writing 1 (677 == 677) to position 225&quot;
+[1] &quot;writing 1474 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 495&quot;
+[1] &quot;writing 0 (226 &lt; 226) to position 225&quot;
+[1] &quot;writing 2948 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 506&quot;
+[1] &quot;writing 1 + 5896 to position 224&quot;
+[1] &quot;writing 1 (226 &lt; 677) to position 225&quot;
+[1] &quot;writing 5897 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 525&quot;
+[1] &quot;writing 1 (226 &lt; 677) to position 225&quot;
+[1] &quot;writing 11794 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 540&quot;
+[1] &quot;writing 0 (677 &lt; 226) to position 225&quot;
+[1] &quot;writing 2 * 23588 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 555&quot;
+[1] &quot;writing 0 (226 &lt; 226) to position 225&quot;
+[1] &quot;writing 47176 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 566&quot;
+[1] &quot;writing 1 + 94352 to position 224&quot;
+[1] &quot;writing 1 (226 &lt; 677) to position 225&quot;
+[1] &quot;writing 94353 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 585&quot;
+[1] &quot;writing 0 (677 == 226) to position 225&quot;
+[1] &quot;writing 2 * 188706 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 600&quot;
+[1] &quot;writing 0 (226 == 677) to position 225&quot;
+[1] &quot;writing 2 * 377412 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 615&quot;
+[1] &quot;writing 0 (677 &lt; 226) to position 225&quot;
+[1] &quot;writing 2 * 754824 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 626&quot;
+[1] &quot;writing 1 + 1509648 to position 224&quot;
+[1] &quot;writing 1 (677 == 677) to position 225&quot;
+[1] &quot;writing 1509649 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 641&quot;
+[1] &quot;writing 1 + 3019298 to position 224&quot;
+[1] &quot;writing 0 (677 &lt; 226) to position 225&quot;
+[1] &quot;writing 3019299 * 2 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 656&quot;
+[1] &quot;writing 6038598 + 1 to position 224&quot;
+[1] &quot;writing 0 (677 == 226) to position 225&quot;
+[1] &quot;writing 2 * 6038599 to position 224&quot;
+[1] &quot;jump: moving instruction pointer to address 675&quot;
+[1] &quot;instruction: writing 12077198 to output&quot;
+[1] &quot;exited gracefully, finding a opcode 99 at position 677&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3ByaW50ZignZGlhZ25vc2lzIHByb2dyYW0gcmV0dXJuZWQgJXMnLCBkaWFnbm9zdGljX2NvZGUudjIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>sprintf(&#39;diagnosis program returned %s&#39;, diagnostic_code.v2)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiZGlhZ25vc2lzIHByb2dyYW0gcmV0dXJuZWQgMTIwNzcxOThcIlxuIn0= -->
+<pre><code>[1] &quot;diagnosis program returned 12077198&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkFkdmVudCBvZiBDb2RlIDIwMTkiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIERheSAwMg0KDQojIyBsb2FkIHJlcXVpcmVkIGxpYnJhcmllcw0KDQpgYGB7ciBlY2hvPVRSVUUsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmBgYA0KDQojIyBsb2FkIGlucHV0IGRhdGENCg0KYGBge3IgZWNobz1UUlVFLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KZGF5MDJfaW5wdXQgPC0gcmVhZF9saW5lcyAoImlucHV0cy9kYXkwMl8wMV9pbnB1dC50eHQiKSAlPiUgc3Ryc3BsaXQoc3BsaXQgPSAnLCcpICU+JSB1bmxpc3QoKSAlPiUgYXMuaW50ZWdlcigpDQoNCnNwcmludGYoJ2xvYWRlZCBpbnN0cnVjdGlvbl9zdHJlYW06ICVzJywgcGFzdGUoZGF5MDJfaW5wdXQsIGNvbGxhcHNlPScsJykpDQpgYGANCg0KIyMgcGFydCAwMTogd3JpdGUgcHJvZ3JhbSBmdW5jdGlvbg0KDQpUaGUgZm9sbG93aW5nIGluZm9ybWF0aW9uIGlzIGdpdmVuIG9uIHRoZSBmdW5jdGlvbiBvZiB0aGUgT3Bjb2RlIGNvbXB1dGVyOiAgDQoNCi0gT3Bjb2RlIDEgYWRkcyB0b2dldGhlciBudW1iZXJzIHJlYWQgZnJvbSB0d28gcG9zaXRpb25zIGFuZCBzdG9yZXMgdGhlIHJlc3VsdCBpbiBhIHRoaXJkIHBvc2l0aW9uLiAgDQotIE9wY29kZSAyIHdvcmtzIGV4YWN0bHkgbGlrZSBvcGNvZGUgMSwgZXhjZXB0IGl0IG11bHRpcGxpZXMgdGhlIHR3byBpbnB1dHMgaW5zdGVhZCBvZiBhZGRpbmcgdGhlbS4gIA0KLSBPbmNlIHlvdSdyZSBkb25lIHByb2Nlc3NpbmcgYW4gb3Bjb2RlLCBtb3ZlIHRvIHRoZSBuZXh0IG9uZSBieSBzdGVwcGluZyBmb3J3YXJkIDQgcG9zaXRpb25zLiAgDQotIDk5IG1lYW5zIHRoYXQgdGhlIHByb2dyYW0gaXMgZmluaXNoZWQgYW5kIHNob3VsZCBpbW1lZGlhdGVseSBoYWx0ICANCg0KYGBge3IgZWNobz1UUlVFLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0KcnVuX3Byb2dyYW0gPC0gZnVuY3Rpb24ocHJvZ3JhbV9zdHJlYW0sIHZlcmJvc2UgPSBUKSB7DQogIGkgPC0gMQ0KICB3aGlsZSgob3Bjb2RlIDwtIHByb2dyYW1fc3RyZWFtW2ldKSAhPSA5OSkgew0KICAgIGlucHV0MS5hZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSsxXSsxDQogICAgaW5wdXQyLmFkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzJdKzENCiAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzENCiAgICANCiAgICBpbnB1dDEudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQxLmFkcmVzc10NCiAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc10NCiAgICAgIA0KICAgIGlmKG9wY29kZSA9PSAxKSB7DQogICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdpbnN0cnVjdGlvbiAlczogd3JpdGluZyAlcyArICVzIHRvIHBvc2l0aW9uICVzJywgKGkrMykvNCwgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSkNCiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBpbnB1dDEudmFsdWUgKyBpbnB1dDIudmFsdWUNCiAgICAgIA0KICAgIH0gZWxzZSBpZihvcGNvZGUgPT0gMikgew0KICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignaW5zdHJ1Y3Rpb24gJXM6IHdyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIChpKzMpLzQsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpDQogICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlDQogICAgDQogICAgfSBlbHNlIHsNCiAgICAgIHN0b3Aoc3ByaW50ZigndW5rbm93biBvcGNvZGUgJXMnLCBvcGNvZGUpKQ0KICAgIH0NCiAgICANCiAgICBpIDwtIGkrNA0KICB9DQogIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpDQogIHJldHVybihwcm9ncmFtX3N0cmVhbSkNCn0NCmBgYA0KDQpUaGVuLCB2YWxpZGF0ZSB0aGUgZnVuY3Rpb24gb24gdGhlIGV4YW1wbGVzIGdpdmVuOg0KDQpgYGB7cn0NCnZhbGlkYXRpb25fc3RyZWFtLmlucHV0IDwtIGMoMSw5LDEwLDMsMiwzLDExLDAsOTksMzAsNDAsNTApDQp2YWxpZGF0aW9uX3N0cmVhbS5vdXRwdXQgPC0gcnVuX3Byb2dyYW0odmFsaWRhdGlvbl9zdHJlYW0uaW5wdXQsIHZlcmJvc2UgPSBGKQ0KaWRlbnRpY2FsKHZhbGlkYXRpb25fc3RyZWFtLm91dHB1dCwgYygzNTAwLDksMTAsNzAsMiwzLDExLDAsOTksMzAsNDAsNTApKQ0KYGBgDQoNCkxvb2tpbmcgZ29vZC4gTm93IGZvciB0aGUgbWVhbiB0cmljazoNCg0KPiBiZWZvcmUgcnVubmluZyB0aGUgcHJvZ3JhbSwgcmVwbGFjZSBwb3NpdGlvbiAxIHdpdGggdGhlIHZhbHVlIDEyIGFuZCByZXBsYWNlIHBvc2l0aW9uIDIgd2l0aCB0aGUgdmFsdWUgMi4NCj4gV2hhdCB2YWx1ZSBpcyBsZWZ0IGF0IHBvc2l0aW9uIDAgYWZ0ZXIgdGhlIHByb2dyYW0gaGFsdHM/DQoNCmBgYHtyfQ0KZGF5MDJfaW5wdXQuMTIwMnN0YXRlIDwtIGRheTAyX2lucHV0DQpkYXkwMl9pbnB1dC4xMjAyc3RhdGVbMl0gPC0gMTINCmRheTAyX2lucHV0LjEyMDJzdGF0ZVszXSA8LSAyDQoNCmRheTAyX2ZpbmFsX3N0YXRlIDwtIHJ1bl9wcm9ncmFtKGRheTAyX2lucHV0LjEyMDJzdGF0ZSkNCg0Kc3ByaW50ZignZmluYWwgdmFsdWUgYXQgcG9zaXRpb24gMDogJXMnLCBkYXkwMl9maW5hbF9zdGF0ZVsxXSkNCmBgYA0KKCJmaW5hbCB2YWx1ZSBhdCBwb3NpdGlvbiAwOiAzNTYyNjI0IikNCg0KIyMgcGFydCAwMjogZmluZCB0aGUgaW5wdXQgdG8gb3V0cHV0IDE5NjkwNzIwDQoNCj4gSW4gdGhpcyBwcm9ncmFtLCB0aGUgdmFsdWUgcGxhY2VkIGluIGFkZHJlc3MgMSBpcyBjYWxsZWQgdGhlIG5vdW4sIGFuZCB0aGUgdmFsdWUgcGxhY2VkIGluIGFkZHJlc3MgMiBpcyBjYWxsZWQgdGhlIHZlcmIuDQoNCj4gRWFjaCBvZiB0aGUgdHdvIGlucHV0IHZhbHVlcyB3aWxsIGJlIGJldHdlZW4gMCBhbmQgOTksIGluY2x1c2l2ZS4NCg0KPiBFYWNoIHRpbWUgeW91IHRyeSBhIHBhaXIgb2YgaW5wdXRzLCBtYWtlIHN1cmUgeW91IGZpcnN0IHJlc2V0IHRoZSBjb21wdXRlcidzIG1lbW9yeSB0byB0aGUgdmFsdWVzIGluIHRoZSBwcm9ncmFtICh5b3VyIHB1enpsZSBpbnB1dCkgLSBpbiBvdGhlciB3b3JkcywgZG9uJ3QgcmV1c2UgbWVtb3J5IGZyb20gYSBwcmV2aW91cyBhdHRlbXB0Lg0KDQpgYGB7cn0NCmJydXRlZm9yY2Vfb3V0cHV0cyA8LSBmdW5jdGlvbihwcm9ncmFtX3N0cmVhbSwgbm91bnMgPSAwOjk5LCB2ZXJicyA9IDA6OTksIHZlcmJvc2UgPSBGKSB7DQogIHJ1bnMgPC0gdGliYmxlKCkNCiAgZm9yKG5vdW4gaW4gbm91bnMpIHsNCiAgICBmb3IodmVyYiBpbiB2ZXJicykgew0KICAgICAgcnVuX3N0YXRlIDwtIGRheTAyX2lucHV0DQogICAgICBydW5fc3RhdGVbMl0gPC0gbm91bg0KICAgICAgcnVuX3N0YXRlWzNdIDwtIHZlcmINCiAgICAgIA0KICAgICAgcnVuIDwtIHRpYmJsZSgNCiAgICAgICAgbm91biA9IG5vdW4sDQogICAgICAgIHZlcmIgPSB2ZXJiLA0KICAgICAgICBpbml0aWFsX3N0YXRlID0gbGlzdChydW5fc3RhdGUpLA0KICAgICAgICBmaW5hbF9zdGF0ZSA9IGxpc3QocnVuX3Byb2dyYW0ocnVuX3N0YXRlLCB2ZXJib3NlID0gRikpLA0KICAgICAgICBvdXRwdXQgPSBmaW5hbF9zdGF0ZVtbMV1dWzFdDQogICAgICApDQogICAgICANCiAgICAgICMgZG9uJ3QgdXNlIHRoaXMuLiB0b28gbXVjaCBvdXRwdXQgPl8+DQogICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdwcm9kdWNlZCAlcyB3aXRoIG5vdW46ICVzICYgdmVyYjogJXMnLCBydW4kb3V0cHV0LCBub3VuLCB2ZXJiKSkNCiAgICAgIA0KICAgICAgcnVucyA8LSBydW5zICU+JQ0KICAgICAgICBiaW5kX3Jvd3MocnVuKQ0KICAgIH0NCiAgfQ0KICANCiAgcmV0dXJuKHJ1bnMpDQp9DQpgYGANCg0KQWdhaW4sIHZhbGlkYXRlIHRoZSBmdW5jdGlvbiBieSBjaGVja2luZyB3aGV0aGVyIHdlIGNhbiBmaW5kIHRoZSBpbnB1dHMgdG8gdGhlIGZpcnN0IHBhcnQgb2YgdGhlIHB1enpsZSwgb25seSBiYXNlZCBvbiBpdHMgb3V0cHV0LiAgDQpUaGlzIHNob3VsZCBkZWxpdmVyIHZhbHVlcyBmb3IgYSBidW5jaCBvZiBpbnB1dCBjb21iaW5hdGlvbnMsIHdoZXJlIHdlIHNob3VsZCBmaW5kIHRoZSBvdXRwdXQgMzU2MjYyNCBiZWluZyBwcm9kdWNlZCBieSBub3VuOiAxMiAmIHZlcmI6IDINCg0KYGBge3J9DQp2YWxpZGF0aW9uX2lvIDwtIGJydXRlZm9yY2Vfb3V0cHV0cyhkYXkwMl9pbnB1dCwgbm91bnMgPSAwOjIwLCB2ZXJicyA9IDA6MjAsIHZlcmJvc2UgPSBGKQ0KdmFsaWRhdGlvbl9pbyAlPiUNCiAgZmlsdGVyKG91dHB1dCA9PSAzNTYyNjI0KSAlPiUNCiAgey4kbm91biA9PSAxMiAmIC4kdmVyYiA9PSAyfSAlPiUNCiAgYWxsDQpgYGANClRoaXMgd29ya3MsIGV2ZW4gaWYgaXQgbWF5IGJlIGEgdmVyeSBkdW1iIGFwcHJvYWNoLi4uICANCk5vYm9keSBzYWlkIEkgY2FuJ3QgYmUgZHVtYi4NCg0KYGBge3J9DQp2YWxpZGF0aW9uX2lvIDwtIGJydXRlZm9yY2Vfb3V0cHV0cyhkYXkwMl9pbnB1dCwgbm91bnMgPSAwOjk5LCB2ZXJicyA9IDA6OTksIHZlcmJvc2UgPSBGKQ0KZGF5MDJfcmVzdWx0LmlucHV0IDwtIHZhbGlkYXRpb25faW8gJT4lDQogIGZpbHRlcihvdXRwdXQgPT0gMTk2OTA3MjApICU+JQ0KICBtdXRhdGUoDQogICAgaW5wdXRfcGFyYW0gPSAxMDAgKiBub3VuICsgdmVyYg0KICApDQoNCnNwcmludGYoJ2ZvdW5kIGV4YWN0bHkgJXMgaW5wdXRzIHRoYXQgbGVhZCB0byB0aGUgb3V0cHV0IDE5NjkwNzIwLiB0aGlzIHdvdWxkIGJlIHRoZSBwcm9ncmFtKHMpICVzJywgbnJvdyhkYXkwMl9yZXN1bHQuaW5wdXQpLCBkYXkwMl9yZXN1bHQuaW5wdXQkaW5wdXRfcGFyYW0pDQpgYGANCigiZm91bmQgZXhhY3RseSAxIGlucHV0cyB0aGF0IGxlYWQgdG8gdGhlIG91dHB1dCAxOTY5MDcyMC4gdGhpcyB3b3VsZCBiZSB0aGUgcHJvZ3JhbShzKSA4Mjk4IikNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkFkdmVudCBvZiBDb2RlIDIwMTkiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIERheSAwNQ0KDQojIyBsb2FkIHJlcXVpcmVkIGxpYnJhcmllcw0KDQpgYGB7ciBlY2hvPVRSVUUsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkoZ3Rvb2xzKQ0KYGBgDQoNCiMjIGxvYWQgaW5wdXQgZGF0YQ0KDQpgYGB7ciBlY2hvPVRSVUUsIG1lc3NhZ2U9RkFMU0UsIHdhcm5pbmc9RkFMU0V9DQpkYXkwNV9pbnB1dCA8LSByZWFkX2xpbmVzICgiaW5wdXRzL2RheTA1XzAxX2lucHV0LnR4dCIpICU+JSBzdHJzcGxpdChzcGxpdCA9ICcsJykgJT4lIHVubGlzdCgpICU+JSBhcy5pbnRlZ2VyKCkNCg0Kc3ByaW50ZignbG9hZGVkIGluc3RydWN0aW9uX3N0cmVhbTogJXMnLCBwYXN0ZShkYXkwNV9pbnB1dCwgY29sbGFwc2U9JywnKSkNCmBgYA0KDQojIyBwYXJ0IDAxOiB3cml0ZSBwcm9ncmFtIGZ1bmN0aW9uDQoNCj4gVGhlIFRFU1QgZGlhZ25vc3RpYyBwcm9ncmFtIHdpbGwgcnVuIG9uIHlvdXIgZXhpc3RpbmcgSW50Y29kZSBjb21wdXRlciBhZnRlciBhIGZldyBtb2RpZmljYXRpb25zOg0KDQpGb3IgcmVmZXJlbmNlLCB0aGUgZm9sbG93aW5nIGlzIGV4YWN0bHkgdGhlICJjb21wdXRlciIgd3JpdHRlbiBmb3IgdGhlIGRheSAwMiBzb2x1dGlvbjoNCg0KYGBge3IgZWNobz1UUlVFLCBtZXNzYWdlPUZBTFNFLCB3YXJuaW5nPUZBTFNFfQ0Kb2xkX2ludGNvZGVfY29tcHV0ZXIgPC0gZnVuY3Rpb24ocHJvZ3JhbV9zdHJlYW0sIHZlcmJvc2UgPSBUKSB7DQogIGkgPC0gMQ0KICB3aGlsZSgob3Bjb2RlIDwtIHByb2dyYW1fc3RyZWFtW2ldKSAhPSA5OSkgew0KICAgIGlucHV0MS5hZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSsxXSsxDQogICAgaW5wdXQyLmFkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzJdKzENCiAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzENCiAgICANCiAgICBpbnB1dDEudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQxLmFkcmVzc10NCiAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc10NCiAgICAgIA0KICAgIGlmKG9wY29kZSA9PSAxKSB7DQogICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdpbnN0cnVjdGlvbiAlczogd3JpdGluZyAlcyArICVzIHRvIHBvc2l0aW9uICVzJywgKGkrMykvNCwgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSkNCiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBpbnB1dDEudmFsdWUgKyBpbnB1dDIudmFsdWUNCiAgICAgIA0KICAgIH0gZWxzZSBpZihvcGNvZGUgPT0gMikgew0KICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignaW5zdHJ1Y3Rpb24gJXM6IHdyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIChpKzMpLzQsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpDQogICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlDQogICAgDQogICAgfSBlbHNlIHsNCiAgICAgIHN0b3Aoc3ByaW50ZigndW5rbm93biBvcGNvZGUgJXMnLCBvcGNvZGUpKQ0KICAgIH0NCiAgICANCiAgICBpIDwtIGkrNA0KICB9DQogIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpDQogIHJldHVybihwcm9ncmFtX3N0cmVhbSkNCn0NCmBgYA0KDQpOb3csIHRoaXMgaHMgdG8gYmUgZXh0ZW5kZWQgd3RoIHR3byBuZXcgaW5zdHJ1Y3Rpb25zOg0KDQotIE9wY29kZSAzIHRha2VzIGEgc2luZ2xlIGludGVnZXIgYXMgaW5wdXQgYW5kIHNhdmVzIGl0IHRvIHRoZSBwb3NpdGlvbiBnaXZlbiBieSBpdHMgb25seSBwYXJhbWV0ZXIuICANCkZvciBleGFtcGxlLCB0aGUgaW5zdHJ1Y3Rpb24gMyw1MCB3b3VsZCB0YWtlIGFuIGlucHV0IHZhbHVlIGFuZCBzdG9yZSBpdCBhdCBhZGRyZXNzIDUwLiAgDQotIE9wY29kZSA0IG91dHB1dHMgdGhlIHZhbHVlIG9mIGl0cyBvbmx5IHBhcmFtZXRlci4gRm9yIGV4YW1wbGUsIHRoZSBpbnN0cnVjdGlvbiA0LDUwIHdvdWxkIG91dHB1dCB0aGUgdmFsdWUgYXQgYWRkcmVzcyA1MC4NCi0gU2Vjb25kLCB5b3UnbGwgbmVlZCB0byBhZGQgc3VwcG9ydCBmb3IgcGFyYW1ldGVyIG1vZGVzOg0KLS0gUGFyYW1ldGVyIG1vZGUgMCwgcG9zaXRpb24gbW9kZSwgd2hpY2ggY2F1c2VzIHRoZSBwYXJhbWV0ZXIgdG8gYmUgaW50ZXJwcmV0ZWQgYXMgYSBwb3NpdGlvbiAgDQotLSBQYXJhbWV0ZXJzIGluIG1vZGUgMSwgaW1tZWRpYXRlIG1vZGUuIEluIGltbWVkaWF0ZSBtb2RlLCBhIHBhcmFtZXRlciBpcyBpbnRlcnByZXRlZCBhcyBhIHZhbHVlDQotLSBQYXJhbWV0ZXJzIHRoYXQgYW4gaW5zdHJ1Y3Rpb24gd3JpdGVzIHRvIHdpbGwgbmV2ZXIgYmUgaW4gaW1tZWRpYXRlIG1vZGUuDQoNCmBgYHtyfQ0KZ2V0X29wY29kZSA8LSBmdW5jdGlvbihpbnB1dCkgew0KICBpbnB1dCAlPiUgYXMuY2hhcmFjdGVyICU+JSBzdHJzcGxpdChzcGxpdD0nJykgJT4lIHVubGlzdCAlPiUgdGFpbCgyKSAlPiUgcGFzdGUoY29sbGFwc2U9JycpICU+JSBhcy5pbnRlZ2VyDQp9DQpnZXRfcGFyYW1fbW9kZXMgPC0gZnVuY3Rpb24oaW5wdXQpIHsNCiAgaW5wdXQgJT4lIGFzLmNoYXJhY3RlciAlPiUgc3Ryc3BsaXQoc3BsaXQ9JycpICU+JSB1bmxpc3QgJT4lIGhlYWQoLTIpICU+JSByZXYNCn0NCg0KaW50Y29kZV9jb21wdXRlci52MSA8LSBmdW5jdGlvbihwcm9ncmFtX3N0cmVhbSwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBUKSB7DQogIG91dHB1dCA8LSBjKCkNCiAgDQogIGkgPC0gMQ0KICB3aGlsZSgob3Bjb2RlIDwtIGdldF9vcGNvZGUocHJvZ3JhbV9zdHJlYW1baV0pKSAhPSA5OSkgew0KICAgIHBhcmFtX21vZGVzIDwtIGdldF9wYXJhbV9tb2Rlcyhwcm9ncmFtX3N0cmVhbVtpXSkNCiAgICAgIA0KICAgIGlmKG9wY29kZSA9PSAxKSB7DQogICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSkNCiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKQ0KICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxDQogICAgICANCiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXQ0KICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdDQogICAgICANCiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKyAlcyB0byBwb3NpdGlvbiAlcycsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpDQogICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICsgaW5wdXQyLnZhbHVlDQogICAgICBpIDwtIGkrNA0KICAgICAgDQogICAgfSBlbHNlIGlmKG9wY29kZSA9PSAyKSB7DQogICAgICBpbnB1dDEuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSkNCiAgICAgIGlucHV0Mi5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzJdKSB8IHBhcmFtX21vZGVzWzJdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMl0rMSwgaSsyKQ0KICAgICAgb3V0cHV0LmFkZHJlc3MgPC0gcHJvZ3JhbV9zdHJlYW1baSszXSsxDQogICAgICANCiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXQ0KICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdDQogICAgICANCiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKiAlcyB0byBwb3NpdGlvbiAlcycsIGlucHV0MS52YWx1ZSwgaW5wdXQyLnZhbHVlLCBvdXRwdXQuYWRkcmVzcykpDQogICAgICBwcm9ncmFtX3N0cmVhbVtvdXRwdXQuYWRkcmVzc10gPC0gaW5wdXQxLnZhbHVlICogaW5wdXQyLnZhbHVlDQogICAgICBpIDwtIGkrNA0KICAgICAgDQogICAgfSBlbHNlIGlmKG9wY29kZSA9PSAzKSB7DQogICAgICBpbnB1dCA8LSBkZWZhdWx0LmlucHV0ICMgZm9yIHRoZSBlYXNlIG9mIG9wZXJhdGlvbiwgY29tbWVudGluZyB0aGlzIG91dC4gZ3Rvb2xzOjphc2sobXNnPSdQbGVhc2UgcHJvdmlkZSBpbnB1dCcpICU+JSBhcy5pbnRlZ2VyKCkNCiAgICAgIA0KICAgICAgd3JpdGUuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzFdKzENCiAgICAgIA0KICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignY29sbGVjdGVkIGlucHV0ICVzLCB3cml0aW5nIGl0IHRvIGFkZHJlc3MgJXMnLCBpbnB1dCwgd3JpdGUuYWRkcmVzcykpDQogICAgICBwcm9ncmFtX3N0cmVhbVt3cml0ZS5hZGRyZXNzXSA8LSBpbnB1dA0KICAgICAgaSA8LSBpKzINCiAgICANCiAgICB9IGVsc2UgaWYob3Bjb2RlID09IDQpIHsNCiAgICAgIGlucHV0LmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMV0pIHwgcGFyYW1fbW9kZXNbMV0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsxXSsxLCBpKzEpDQogICAgICBpbnB1dC52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dC5hZHJlc3NdDQogICAgICANCiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2luc3RydWN0aW9uOiB3cml0aW5nICVzIHRvIG91dHB1dCcsIGlucHV0LnZhbHVlKSkNCiAgICAgIG91dHB1dCA8LSBjKG91dHB1dCwgaW5wdXQudmFsdWUpDQogICAgICANCiAgICAgIGlmKGlucHV0LnZhbHVlICE9IDAgJiYgcHJvZ3JhbV9zdHJlYW1baSsyXSAhPSA5OSkgew0KICAgICAgICBzdG9wKHNwcmludGYoJ25vbi0wIG91dHB1dDogJXMuIHByZXZpb3VzbHkgZXhlY3V0ZWQgb3BlcmF0aW9uIGF0IGFkZHJlc3MgJXMnLCBpbnB1dC52YWx1ZSwgaS0xKSkNCiAgICAgIH0NCiAgICAgIGkgPC0gaSsyDQogICAgICANCiAgICB9IGVsc2Ugew0KICAgICAgc3RvcChzcHJpbnRmKCd1bmtub3duIG9wY29kZSAlcy4gcHJldmlvdXNseSBleGVjdXRlZCBvcGVyYXRpb24gYXQgYWRkcmVzcyAlcycsIG9wY29kZSwgaS0xKSkNCiAgICB9DQogICAgDQogIH0NCiAgDQogIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2V4aXRlZCBncmFjZWZ1bGx5LCBmaW5kaW5nIGEgb3Bjb2RlIDk5IGF0IHBvc2l0aW9uICVzJywgaSkpDQogIHJldHVybihvdXRwdXQpDQp9DQpgYGANCg0KVGhlIHZhbGlkYXRpb24gYWN0dWFsbHkgY29tZXMgYXMgcGFydCBvZiB0aGUgZXhlY3V0aW9uLCBzbyB3ZSB3aWxsIHJ1biB0aGlzIGRpYWdub3N0aWMgcHJvZ3JhbS4gIA0KSWYgYWxsIG91dHB1dHMgYXJlIDAsIGV4Y2VwdCB0aGUgbGFzdCBvbmUgYmVmb3JlIGhpdHRpbmcgdGhlIDk5LWNvZGUsIHRoZW4gd2UgYXJlIGdvb2QuDQoNCmBgYHtyfQ0KZGlhZ25vc3RpY19vdXRwdXQgPC0gaW50Y29kZV9jb21wdXRlci52MShkYXkwNV9pbnB1dCwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBUKQ0KYGBgDQoNCmBgYHtyfQ0Kc3ByaW50ZignZmluYWwgZGlhZ25vc3RpYyBjb2RlOiAlcycsIGRpYWdub3N0aWNfb3V0cHV0ICU+JSB0YWlsKDEpKQ0KYGBgDQoNCiMjIHBhcnQgMDI6IGFkZCBzb21lIG1vcmUgaW5zdHJ1Y3Rpb25zDQoNClN1cnByaXNpbmdseSwgcGFydCAwMiBhc2tzIHRvIGFkZCBldmVuIG1vcmUgZnVuY3Rpb25hbGl0eSB0byB0aGUgY29tcHV0ZXIuLi4NCg0KLSBPcGNvZGUgNSBpcyBqdW1wLWlmLXRydWU6IGlmIHRoZSBmaXJzdCBwYXJhbWV0ZXIgaXMgbm9uLXplcm8sIGl0IHNldHMgdGhlIGluc3RydWN0aW9uIHBvaW50ZXIgdG8gdGhlIHZhbHVlIGZyb20gdGhlIHNlY29uZCBwYXJhbWV0ZXIuIE90aGVyd2lzZSwgaXQgZG9lcyBub3RoaW5nLiAgDQotIE9wY29kZSA2IGlzIGp1bXAtaWYtZmFsc2U6IGlmIHRoZSBmaXJzdCBwYXJhbWV0ZXIgaXMgemVybywgaXQgc2V0cyB0aGUgaW5zdHJ1Y3Rpb24gcG9pbnRlciB0byB0aGUgdmFsdWUgZnJvbSB0aGUgc2Vjb25kIHBhcmFtZXRlci4gT3RoZXJ3aXNlLCBpdCBkb2VzIG5vdGhpbmcuICANCi0gT3Bjb2RlIDcgaXMgbGVzcyB0aGFuOiBpZiB0aGUgZmlyc3QgcGFyYW1ldGVyIGlzIGxlc3MgdGhhbiB0aGUgc2Vjb25kIHBhcmFtZXRlciwgaXQgc3RvcmVzIDEgaW4gdGhlIHBvc2l0aW9uIGdpdmVuIGJ5IHRoZSB0aGlyZCBwYXJhbWV0ZXIuIE90aGVyd2lzZSwgaXQgc3RvcmVzIDAuICANCi0gT3Bjb2RlIDggaXMgZXF1YWxzOiBpZiB0aGUgZmlyc3QgcGFyYW1ldGVyIGlzIGVxdWFsIHRvIHRoZSBzZWNvbmQgcGFyYW1ldGVyLCBpdCBzdG9yZXMgMSBpbiB0aGUgcG9zaXRpb24gZ2l2ZW4gYnkgdGhlIHRoaXJkIHBhcmFtZXRlci4gT3RoZXJ3aXNlLCBpdCBzdG9yZXMgMC4NCg0KYGBge3J9DQppbnRjb2RlX2NvbXB1dGVyLnYyIDwtIGZ1bmN0aW9uKHByb2dyYW1fc3RyZWFtLCBkZWZhdWx0LmlucHV0ID0gMSwgdmVyYm9zZSA9IFQsIGRpYWdub3N0aWNfbW9kZSA9IEYpIHsNCiAgb3V0cHV0IDwtIGMoKQ0KICANCiAgaSA8LSAxDQogIHdoaWxlKChvcGNvZGUgPC0gZ2V0X29wY29kZShwcm9ncmFtX3N0cmVhbVtpXSkpICE9IDk5KSB7DQogICAgcGFyYW1fbW9kZXMgPC0gZ2V0X3BhcmFtX21vZGVzKHByb2dyYW1fc3RyZWFtW2ldKQ0KICAgICAgDQogICAgaWYob3Bjb2RlID09IDEpIHsNCiAgICAgIGlucHV0MS5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzFdKSB8IHBhcmFtX21vZGVzWzFdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMV0rMSwgaSsxKQ0KICAgICAgaW5wdXQyLmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMl0pIHwgcGFyYW1fbW9kZXNbMl0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsyXSsxLCBpKzIpDQogICAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzENCiAgICAgIA0KICAgICAgaW5wdXQxLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0MS5hZHJlc3NdDQogICAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc10NCiAgICAgIA0KICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50Zignd3JpdGluZyAlcyArICVzIHRvIHBvc2l0aW9uICVzJywgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSkNCiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBpbnB1dDEudmFsdWUgKyBpbnB1dDIudmFsdWUNCiAgICAgIGkgPC0gaSs0DQogICAgICANCiAgICB9IGVsc2UgaWYob3Bjb2RlID09IDIpIHsNCiAgICAgIGlucHV0MS5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzFdKSB8IHBhcmFtX21vZGVzWzFdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMV0rMSwgaSsxKQ0KICAgICAgaW5wdXQyLmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMl0pIHwgcGFyYW1fbW9kZXNbMl0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsyXSsxLCBpKzIpDQogICAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzENCiAgICAgIA0KICAgICAgaW5wdXQxLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0MS5hZHJlc3NdDQogICAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc10NCiAgICAgIA0KICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50Zignd3JpdGluZyAlcyAqICVzIHRvIHBvc2l0aW9uICVzJywgaW5wdXQxLnZhbHVlLCBpbnB1dDIudmFsdWUsIG91dHB1dC5hZGRyZXNzKSkNCiAgICAgIHByb2dyYW1fc3RyZWFtW291dHB1dC5hZGRyZXNzXSA8LSBpbnB1dDEudmFsdWUgKiBpbnB1dDIudmFsdWUNCiAgICAgIGkgPC0gaSs0DQogICAgICANCiAgICB9IGVsc2UgaWYob3Bjb2RlID09IDMpIHsNCiAgICAgIGlucHV0IDwtIGRlZmF1bHQuaW5wdXQgIyBmb3IgdGhlIGVhc2Ugb2Ygb3BlcmF0aW9uLCBjb21tZW50aW5nIHRoaXMgb3V0LiBndG9vbHM6OmFzayhtc2c9J1BsZWFzZSBwcm92aWRlIGlucHV0JykgJT4lIGFzLmludGVnZXIoKQ0KICAgICAgDQogICAgICB3cml0ZS5hZGRyZXNzIDwtIHByb2dyYW1fc3RyZWFtW2krMV0rMQ0KICAgICAgDQogICAgICBpZih2ZXJib3NlKSBwcmludChzcHJpbnRmKCdjb2xsZWN0ZWQgaW5wdXQgJXMsIHdyaXRpbmcgaXQgdG8gYWRkcmVzcyAlcycsIGlucHV0LCB3cml0ZS5hZGRyZXNzKSkNCiAgICAgIHByb2dyYW1fc3RyZWFtW3dyaXRlLmFkZHJlc3NdIDwtIGlucHV0DQogICAgICBpIDwtIGkrMg0KICAgIA0KICAgIH0gZWxzZSBpZihvcGNvZGUgPT0gNCkgew0KICAgICAgaW5wdXQuYWRyZXNzIDwtIGlmZWxzZShpcy5uYShwYXJhbV9tb2Rlc1sxXSkgfCBwYXJhbV9tb2Rlc1sxXSA9PSAwLCBwcm9ncmFtX3N0cmVhbVtpKzFdKzEsIGkrMSkNCiAgICAgIGlucHV0LnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0LmFkcmVzc10NCiAgICAgIA0KICAgICAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignaW5zdHJ1Y3Rpb246IHdyaXRpbmcgJXMgdG8gb3V0cHV0JywgaW5wdXQudmFsdWUpKQ0KICAgICAgb3V0cHV0IDwtIGMob3V0cHV0LCBpbnB1dC52YWx1ZSkNCiAgICAgIA0KICAgICAgIyBpdCBzZWVtcyB0aGF0IHRoaXMgcGFydCBvZiB0aGUgY29kZSBpcyBub3QgcmVxdWlyZWQgYW55bW9yZSAtIHdpbGwgbWFrZSBpdCBkZXBlbmRlbnQgb24gZGlhZ25vc3RpY19tb2RlIHBhcmFtZXRlciAoZGVmYXVsdCB0byBGKQ0KICAgICAgaWYoZGlhZ25vc3RpY19tb2RlICYgaW5wdXQudmFsdWUgIT0gMCAmJiBwcm9ncmFtX3N0cmVhbVtpKzJdICE9IDk5KSB7DQogICAgICAgIHN0b3Aoc3ByaW50Zignbm9uLTAgb3V0cHV0OiAlcy4gcHJldmlvdXNseSBleGVjdXRlZCBvcGVyYXRpb24gYXQgYWRkcmVzcyAlcycsIGlucHV0LnZhbHVlLCBpLTEpKQ0KICAgICAgfQ0KICAgICAgaSA8LSBpKzINCiAgICAgIA0KICAgIH0gZWxzZSBpZihvcGNvZGUgJWluJSBjKDUsNikpIHsNCiAgICAgIGlucHV0MS5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzFdKSB8IHBhcmFtX21vZGVzWzFdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMV0rMSwgaSsxKQ0KICAgICAgaW5wdXQyLmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMl0pIHwgcGFyYW1fbW9kZXNbMl0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsyXSsxLCBpKzIpDQogICAgICANCiAgICAgIGlucHV0MS52YWx1ZSA8LSBwcm9ncmFtX3N0cmVhbVtpbnB1dDEuYWRyZXNzXQ0KICAgICAgaW5wdXQyLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0Mi5hZHJlc3NdDQogICAgICANCiAgICAgIGlmKG9wY29kZSA9PSA1ICYgaW5wdXQxLnZhbHVlICE9IDApIHsNCiAgICAgICAgaSA8LSBpbnB1dDIudmFsdWUrMQ0KICAgICAgfSBlbHNlIGlmKG9wY29kZSA9PSA2ICYgaW5wdXQxLnZhbHVlID09IDApIHsNCiAgICAgICAgaSA8LSBpbnB1dDIudmFsdWUrMQ0KICAgICAgfSBlbHNlIHsNCiAgICAgICAgaSA8LSBpKzMNCiAgICAgIH0NCiAgICAgIGlmKHZlcmJvc2UpIHByaW50KHNwcmludGYoJ2p1bXA6IG1vdmluZyBpbnN0cnVjdGlvbiBwb2ludGVyIHRvIGFkZHJlc3MgJXMnLCBpKSkNCiAgICAgIA0KICAgIH0gZWxzZSBpZihvcGNvZGUgJWluJSBjKDcsOCkpIHsNCiAgICAgIGlucHV0MS5hZHJlc3MgPC0gaWZlbHNlKGlzLm5hKHBhcmFtX21vZGVzWzFdKSB8IHBhcmFtX21vZGVzWzFdID09IDAsIHByb2dyYW1fc3RyZWFtW2krMV0rMSwgaSsxKQ0KICAgICAgaW5wdXQyLmFkcmVzcyA8LSBpZmVsc2UoaXMubmEocGFyYW1fbW9kZXNbMl0pIHwgcGFyYW1fbW9kZXNbMl0gPT0gMCwgcHJvZ3JhbV9zdHJlYW1baSsyXSsxLCBpKzIpDQogICAgICBvdXRwdXQuYWRkcmVzcyA8LSBwcm9ncmFtX3N0cmVhbVtpKzNdKzENCiAgICAgIA0KICAgICAgaW5wdXQxLnZhbHVlIDwtIHByb2dyYW1fc3RyZWFtW2lucHV0MS5hZHJlc3NdDQogICAgICBpbnB1dDIudmFsdWUgPC0gcHJvZ3JhbV9zdHJlYW1baW5wdXQyLmFkcmVzc10NCiAgICAgIG91dHB1dC52YWx1ZSA8LSBjYXNlX3doZW4oDQogICAgICAgIG9wY29kZSA9PSA3IH4gaW5wdXQxLnZhbHVlIDwgaW5wdXQyLnZhbHVlLA0KICAgICAgICBvcGNvZGUgPT0gOCB+IGlucHV0MS52YWx1ZSA9PSBpbnB1dDIudmFsdWUsDQogICAgICAgIFQgfiBGDQogICAgICApICU+JSBhcy5pbnRlZ2VyDQogICAgICANCiAgICAgIGlmKHZlcmJvc2UgJiYgb3Bjb2RlID09IDcpIHByaW50KHNwcmludGYoJ3dyaXRpbmcgJXMgKCVzIDwgJXMpIHRvIHBvc2l0aW9uICVzJywgb3V0cHV0LnZhbHVlLCBpbnB1dDEudmFsdWUsIGlucHV0Mi52YWx1ZSwgb3V0cHV0LmFkZHJlc3MpKQ0KICAgICAgaWYodmVyYm9zZSAmJiBvcGNvZGUgPT0gOCkgcHJpbnQoc3ByaW50Zignd3JpdGluZyAlcyAoJXMgPT0gJXMpIHRvIHBvc2l0aW9uICVzJywgb3V0cHV0LnZhbHVlLCBpbnB1dDEudmFsdWUsIGlucHV0Mi52YWx1ZSwgb3V0cHV0LmFkZHJlc3MpKQ0KICAgICAgcHJvZ3JhbV9zdHJlYW1bb3V0cHV0LmFkZHJlc3NdIDwtIG91dHB1dC52YWx1ZQ0KICAgICAgaSA8LSBpKzQNCiAgICAgIA0KICAgIH0gZWxzZSB7DQogICAgICBzdG9wKHNwcmludGYoJ3Vua25vd24gb3Bjb2RlICVzLiBwcmV2aW91c2x5IGV4ZWN1dGVkIG9wZXJhdGlvbiBhdCBhZGRyZXNzICVzJywgb3Bjb2RlLCBpLTEpKQ0KICAgIH0NCiAgICANCiAgfQ0KICANCiAgaWYodmVyYm9zZSkgcHJpbnQoc3ByaW50ZignZXhpdGVkIGdyYWNlZnVsbHksIGZpbmRpbmcgYSBvcGNvZGUgOTkgYXQgcG9zaXRpb24gJXMnLCBpKSkNCiAgcmV0dXJuKG91dHB1dCkNCn0NCmBgYA0KDQoNCkZvciB2YWxpZGF0aW9uLCB0aGVyZSBhcmUgc29tZSBleGFtcGxlcyBnaXZlbjoNCg0KLSBgMyw5LDgsOSwxMCw5LDQsOSw5OSwtMSw4YCAtIFVzaW5nIHBvc2l0aW9uIG1vZGUsIGNvbnNpZGVyIHdoZXRoZXIgdGhlIGlucHV0IGlzIGVxdWFsIHRvIDg7IG91dHB1dCAxIChpZiBpdCBpcykgb3IgMCAoaWYgaXQgaXMgbm90KS4gIA0KDQpgYGB7cn0NCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDksOCw5LDEwLDksNCw5LDk5LC0xLDgpLCBkZWZhdWx0LmlucHV0ID0gOSwgdmVyYm9zZSA9IEYpID09IDANCmBgYA0KYGBge3J9DQppbnRjb2RlX2NvbXB1dGVyLnYyKGMoMyw5LDgsOSwxMCw5LDQsOSw5OSwtMSw4KSwgZGVmYXVsdC5pbnB1dCA9IDgsIHZlcmJvc2UgPSBGKSA9PSAxDQpgYGANCg0KLSBgMyw5LDcsOSwxMCw5LDQsOSw5OSwtMSw4YCAtIFVzaW5nIHBvc2l0aW9uIG1vZGUsIGNvbnNpZGVyIHdoZXRoZXIgdGhlIGlucHV0IGlzIGxlc3MgdGhhbiA4OyBvdXRwdXQgMSAoaWYgaXQgaXMpIG9yIDAgKGlmIGl0IGlzIG5vdCkuDQoNCmBgYHtyfQ0KaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw3LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA5LCB2ZXJib3NlID0gRikgPT0gMA0KYGBgDQoNCmBgYHtyfQ0KaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw3LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA4LCB2ZXJib3NlID0gRikgPT0gMA0KYGBgDQoNCmBgYHtyfQ0KaW50Y29kZV9jb21wdXRlci52MihjKDMsOSw3LDksMTAsOSw0LDksOTksLTEsOCksIGRlZmF1bHQuaW5wdXQgPSA3LCB2ZXJib3NlID0gRikgPT0gMQ0KYGBgDQogDQotIGAzLDMsMTEwOCwtMSw4LDMsNCwzLDk5YCAtIFVzaW5nIGltbWVkaWF0ZSBtb2RlLCBjb25zaWRlciB3aGV0aGVyIHRoZSBpbnB1dCBpcyBlcXVhbCB0byA4OyBvdXRwdXQgMSAoaWYgaXQgaXMpIG9yIDAgKGlmIGl0IGlzIG5vdCkuIA0KDQpgYGB7cn0NCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDMsMTEwOCwtMSw4LDMsNCwzLDk5KSwgZGVmYXVsdC5pbnB1dCA9IDksIHZlcmJvc2UgPSBGKSA9PSAwDQpgYGANCg0KYGBge3J9DQppbnRjb2RlX2NvbXB1dGVyLnYyKGMoMywzLDExMDgsLTEsOCwzLDQsMyw5OSksIGRlZmF1bHQuaW5wdXQgPSA4LCB2ZXJib3NlID0gRikgPT0gMQ0KYGBgDQoNCg0KLSBgMywzLDExMDcsLTEsOCwzLDQsMyw5OWAgLSBVc2luZyBpbW1lZGlhdGUgbW9kZSwgY29uc2lkZXIgd2hldGhlciB0aGUgaW5wdXQgaXMgbGVzcyB0aGFuIDg7IG91dHB1dCAxIChpZiBpdCBpcykgb3IgMCAoaWYgaXQgaXMgbm90KS4NCg0KYGBge3J9DQppbnRjb2RlX2NvbXB1dGVyLnYyKGMoMywzLDExMDcsLTEsOCwzLDQsMyw5OSksIGRlZmF1bHQuaW5wdXQgPSA5LCB2ZXJib3NlID0gRikgPT0gMA0KYGBgDQoNCmBgYHtyfQ0KaW50Y29kZV9jb21wdXRlci52MihjKDMsMywxMTA3LC0xLDgsMyw0LDMsOTkpLCBkZWZhdWx0LmlucHV0ID0gOCwgdmVyYm9zZSA9IEYpID09IDANCmBgYA0KDQpgYGB7cn0NCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDMsMTEwNywtMSw4LDMsNCwzLDk5KSwgZGVmYXVsdC5pbnB1dCA9IDcsIHZlcmJvc2UgPSBGKSA9PSAxDQpgYGANCg0KVGhlIHBhcnQgMDIgdGFzayBhbHNvIHByb3ZpZGVzIHNvbWUganVtcCB0ZXN0cyB0aGF0IHRha2UgYW4gaW5wdXQsIHRoZW4gb3V0cHV0IDAgaWYgdGhlIGlucHV0IHdhcyB6ZXJvIG9yIDEgaWYgdGhlIGlucHV0IHdhcyBub24temVybzoNCg0KLSBgMywxMiw2LDEyLDE1LDEsMTMsMTQsMTMsNCwxMyw5OSwtMSwwLDEsOWAgKHVzaW5nIHBvc2l0aW9uIG1vZGUpDQoNCmBgYHtyfQ0KaW50Y29kZV9jb21wdXRlci52MihjKDMsMTIsNiwxMiwxNSwxLDEzLDE0LDEzLDQsMTMsOTksLTEsMCwxLDkpLCBkZWZhdWx0LmlucHV0ID0gMCwgdmVyYm9zZSA9IEYpID09IDANCmBgYA0KDQpgYGB7cn0NCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDEyLDYsMTIsMTUsMSwxMywxNCwxMyw0LDEzLDk5LC0xLDAsMSw5KSwgZGVmYXVsdC5pbnB1dCA9IDEsIHZlcmJvc2UgPSBGKSA9PSAxDQpgYGANCg0KLSBgMywzLDExMDUsLTEsOSwxMTAxLDAsMCwxMiw0LDEyLDk5LDFgICh1c2luZyBpbW1lZGlhdGUgbW9kZSkNCg0KYGBge3J9DQppbnRjb2RlX2NvbXB1dGVyLnYyKGMoMywzLDExMDUsLTEsOSwxMTAxLDAsMCwxMiw0LDEyLDk5LDEpLCBkZWZhdWx0LmlucHV0ID0gMCwgdmVyYm9zZSA9IEYpID09IDANCmBgYA0KDQpgYGB7cn0NCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDMsMTEwNSwtMSw5LDExMDEsMCwwLDEyLDQsMTIsOTksMSksIGRlZmF1bHQuaW5wdXQgPSAxLCB2ZXJib3NlID0gRikgPT0gMQ0KYGBgDQoNCkFuZCBhIGZpbmFsIGxhcmdlciBleGFtcGxlOg0KDQotIGAzLDIxLDEwMDgsMjEsOCwyMCwxMDA1LDIwLDIyLDEwNyw4LDIxLDIwLDEwMDYsMjAsMzEsMTEwNiwwLDM2LDk4LDAsMCwxMDAyLDIxLDEyNSwyMCw0LDIwLDExMDUsMSw0NiwxMDQsOTk5LDExMDUsMSw0NiwxMTAxLDEwMDAsMSwyMCw0LDIwLDExMDUsMSw0Niw5OCw5OWAgLSB0aGlzIGV4YW1wbGUgcHJvZ3JhbSB1c2VzIGFuIGlucHV0IGluc3RydWN0aW9uIHRvIGFzayBmb3IgYSBzaW5nbGUgbnVtYmVyLiAgDQpUaGUgcHJvZ3JhbSB3aWxsIHRoZW4gb3V0cHV0IDk5OSBpZiB0aGUgaW5wdXQgdmFsdWUgaXMgYmVsb3cgOCwgb3V0cHV0IDEwMDAgaWYgdGhlIGlucHV0IHZhbHVlIGlzIGVxdWFsIHRvIDgsIG9yIG91dHB1dCAxMDAxIGlmIHRoZSBpbnB1dCB2YWx1ZSBpcyBncmVhdGVyIHRoYW4gOC4NCg0KYGBge3J9DQoNCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDIxLDEwMDgsMjEsOCwyMCwxMDA1LDIwLDIyLDEwNyw4LDIxLDIwLDEwMDYsMjAsMzEsMTEwNiwwLDM2LDk4LDAsMCwxMDAyLDIxLDEyNSwyMCw0LDIwLDExMDUsMSw0NiwxMDQsOTk5LDExMDUsMSw0NiwxMTAxLDEwMDAsMSwyMCw0LDIwLDExMDUsMSw0Niw5OCw5OSksIGRlZmF1bHQuaW5wdXQgPSA3LCB2ZXJib3NlID0gRiwgZGlhZ25vc3RpY19tb2RlID0gRikgPT0gOTk5DQpgYGANCg0KYGBge3J9DQppbnRjb2RlX2NvbXB1dGVyLnYyKGMoMywyMSwxMDA4LDIxLDgsMjAsMTAwNSwyMCwyMiwxMDcsOCwyMSwyMCwxMDA2LDIwLDMxLDExMDYsMCwzNiw5OCwwLDAsMTAwMiwyMSwxMjUsMjAsNCwyMCwxMTA1LDEsNDYsMTA0LDk5OSwxMTA1LDEsNDYsMTEwMSwxMDAwLDEsMjAsNCwyMCwxMTA1LDEsNDYsOTgsOTkpLCBkZWZhdWx0LmlucHV0ID0gOCwgdmVyYm9zZSA9IEYsIGRpYWdub3N0aWNfbW9kZSA9IEYpID09IDEwMDANCmBgYA0KDQpgYGB7cn0NCmludGNvZGVfY29tcHV0ZXIudjIoYygzLDIxLDEwMDgsMjEsOCwyMCwxMDA1LDIwLDIyLDEwNyw4LDIxLDIwLDEwMDYsMjAsMzEsMTEwNiwwLDM2LDk4LDAsMCwxMDAyLDIxLDEyNSwyMCw0LDIwLDExMDUsMSw0NiwxMDQsOTk5LDExMDUsMSw0NiwxMTAxLDEwMDAsMSwyMCw0LDIwLDExMDUsMSw0Niw5OCw5OSksIGRlZmF1bHQuaW5wdXQgPSA5LCB2ZXJib3NlID0gRiwgZGlhZ25vc3RpY19tb2RlID0gRikgPT0gMTAwMQ0KYGBgDQoNCihhbGwgd29ya3Mgd2VsbCwgYnV0IHdlIGhhZCB0byByZW1vdmUgdGhlIGNvbmRpdGlvbiB0byB0ZXN0IHRoYXQgbm9uLXplcm8gb3V0cHV0cyBoYWQgdG8gYmUgZm9sbG93ZWQgYnkgYSA5OS1vcGNvZGUuKSAgDQogIA0KU28sIGZpbmFsbHksIGxldCdzIHJ1biB0aGlzIHRoaW5nIGZvciB0aGUgcXVpeiBpbnB1dC4gIA0KVGhpcyBkaWFnbm9zdGljIHRlc3Qgc3VpdGUgb25seSBvdXRwdXRzIG9uZSBudW1iZXIsIHRoZSBkaWFnbm9zdGljIGNvZGUuDQoNCj4gV2hhdCBpcyB0aGUgZGlhZ25vc3RpYyBjb2RlIGZvciBzeXN0ZW0gSUQgNT8NCg0KYGBge3J9DQpkaWFnbm9zdGljX2NvZGUudjIgPC0gaW50Y29kZV9jb21wdXRlci52MihkYXkwNV9pbnB1dCwgZGVmYXVsdC5pbnB1dCA9IDUsIHZlcmJvc2UgPSBULCBkaWFnbm9zdGljX21vZGUgPSBGKQ0KYGBgDQoNCmBgYHtyfQ0Kc3ByaW50ZignZGlhZ25vc2lzIHByb2dyYW0gcmV0dXJuZWQgJXMnLCBkaWFnbm9zdGljX2NvZGUudjIpDQpgYGA=</div>
 
 
 
